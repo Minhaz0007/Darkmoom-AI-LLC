@@ -1,0 +1,16 @@
+<svg viewBox="0 0 280 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Logo Icon -->
+  <g transform="translate(5, 5)">
+    <path d="M8 8V32H20C26.6274 32 32 26.6274 32 20C32 13.3726 26.6274 8 20 8H8Z" stroke="#0369a1" stroke-width="2.5"/>
+    <path d="M12 12V28" stroke="#0369a1" stroke-width="2.5"/>
+    <path d="M24 20L36 32" stroke="#0369a1" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Text: DARKMOON AI -->
+  <text x="55" y="32" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="700" font-size="20" fill="#0f172a">
+    DARKMOON
+  </text>
+  <text x="180" y="32" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="700" font-size="20" fill="#0369a1">
+    AI
+  </text>
+</svg>

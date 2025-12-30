@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Darkmoon AI Solution LLC - Service Leaflet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .print-buttons {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-print {
+            background: #0369a1;
+            color: white;
+        }
+
+        .btn-print:hover {
+            background: #075985;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-download {
+            background: #06b6d4;
+            color: white;
+        }
+
+        .btn-download:hover {
+            background: #0891b2;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .leaflet-page {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .header-section {
+            height: 140px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #0369a1 0%, #0284c7 50%, #06b6d4 100%);
+        }
+
+        .yellow-accent {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: #facc15;
+            transform: skewX(-20deg) translateX(33%);
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 10;
+            color: white;
+            padding: 32px;
+        }
+
+        .header-content h1 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header-content .tagline {
+            font-size: 20px;
+            font-weight: 300;
+            margin-bottom: 24px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .main-content {
+            padding: 32px;
+        }
+
+        .section-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 12px;
+        }
+
+        .section-title-accent {
+            color: #0369a1;
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+
+        .intro-text {
+            color: #334155;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .process-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .process-step {
+            text-align: center;
+        }
+
+        .process-number {
+            width: 48px;
+            height: 48px;
+            background: #0369a1;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .process-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .process-desc {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .service-item {
+            display: flex;
+            align-items: start;
+            gap: 8px;
+        }
+
+        .service-icon {
+            width: 20px;
+            height: 20px;
+            color: #0369a1;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .service-content h4 {
+            font-weight: 600;
+            font-size: 14px;
+            color: #0f172a;
+            margin-bottom: 2px;
+        }
+
+        .service-content p {
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.4;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .feature-box {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .feature-title {
+            font-weight: 700;
+            font-size: 18px;
+            color: #0369a1;
+            margin-bottom: 4px;
+        }
+
+        .feature-desc {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .cta-section {
+            background: linear-gradient(90deg, #0369a1 0%, #06b6d4 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .cta-section h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .cta-section .subtitle {
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .cta-contacts {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            font-size: 14px;
+        }
+
+        .cta-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .footer {
+            background: #0f172a;
+            color: #94a3b8;
+            text-align: center;
+            padding: 12px;
+            font-size: 12px;
+        }
+
+        /* Print Styles */
+        @media print {
+            @page {
+                size: A4;
+                margin: 0;
+            }
+
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .print-buttons {
+                display: none !important;
+            }
+
+            .leaflet-page {
+                width: 210mm;
+                min-height: 297mm;
+                margin: 0;
+                box-shadow: none;
+                page-break-after: avoid;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+        }
+
+        /* Icons as SVG */
+        .icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .checkmark {
+            color: #0369a1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Print Buttons -->
+    <div class="print-buttons">
+        <button class="btn btn-print" onclick="window.print()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+            Print
+        </button>
+        <button class="btn btn-download" onclick="window.print()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path>
+            </svg>
+            Download PDF
+        </button>
+    </div>
+
+    <!-- A4 Leaflet -->
+    <div class="leaflet-page">
+        <!-- Header Section -->
+        <div class="header-section">
+            <div class="header-bg"></div>
+            <div class="yellow-accent"></div>
+            <div class="header-content">
+                <h1>Darkmoon AI Solution LLC</h1>
+                <div class="tagline">Automate Your Manual Work</div>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                        </svg>
+                        <span>contact@darkmoonai.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                        <span>956-888-0842</span>
+                    </div>
+                    <div class="contact-item">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg>
+                        <span>www.darkmoonai.com</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Introduction -->
+            <div>
+                <h2 class="section-title">Custom Automation That Scales Your Business</h2>
+                <p class="intro-text">
+                    We eliminate repetitive tasks and streamline your workflows with custom automation solutions.
+                    Get a response within 24 hours and transform your business operations.
+                </p>
+            </div>
+
+            <!-- Our Process -->
+            <div class="process-box">
+                <h3 class="section-title-accent">Our 4-Step Process</h3>
+                <div class="process-steps">
+                    <div class="process-step">
+                        <div class="process-number">1</div>
+                        <div class="process-title">Audit</div>
+                        <div class="process-desc">Analyze workflows</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-number">2</div>
+                        <div class="process-title">Design</div>
+                        <div class="process-desc">Create blueprint</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-number">3</div>
+                        <div class="process-title">Build</div>
+                        <div class="process-desc">Develop solution</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-number">4</div>
+                        <div class="process-title">Deploy</div>
+                        <div class="process-desc">Launch & train</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Services -->
+            <div>
+                <h3 class="section-title-accent">Our Services</h3>
+                <div class="services-grid">
+                    <div class="service-item">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+                            <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"></path>
+                        </svg>
+                        <div class="service-content">
+                            <h4>Web & Mobile Apps</h4>
+                            <p>Custom applications with API integration</p>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+                            <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"></path>
+                        </svg>
+                        <div class="service-content">
+                            <h4>Digital Signage</h4>
+                            <p>Cloud-controlled displays with auto-scheduling</p>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+                            <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"></path>
+                        </svg>
+                        <div class="service-content">
+                            <h4>System Integration</h4>
+                            <p>Connect CRM to ERP with automated sync</p>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+                            <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"></path>
+                        </svg>
+                        <div class="service-content">
+                            <h4>Onboarding Automation</h4>
+                            <p>Document extraction and auto-fill forms</p>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+                            <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"></path>
+                        </svg>
+                        <div class="service-content">
+                            <h4>Email Campaigns</h4>
+                            <p>Personalized at scale with auto-segmentation</p>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+                            <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"></path>
+                        </svg>
+                        <div class="service-content">
+                            <h4>Database Automation</h4>
+                            <p>SQL automation with scheduled reports</p>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+                            <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"></path>
+                        </svg>
+                        <div class="service-content">
+                            <h4>Inventory Monitoring</h4>
+                            <p>Real-time tracking with auto vendor alerts</p>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+                            <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"></path>
+                        </svg>
+                        <div class="service-content">
+                            <h4>Proposal Generation</h4>
+                            <p>AI-powered drafts with custom templates</p>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+                            <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"></path>
+                        </svg>
+                        <div class="service-content">
+                            <h4>Business Reporting</h4>
+                            <p>Automated dashboards and KPI tracking</p>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+                            <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"></path>
+                        </svg>
+                        <div class="service-content">
+                            <h4>Big Data Analytics</h4>
+                            <p>Large-scale processing with Azure Databricks</p>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+                            <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"></path>
+                        </svg>
+                        <div class="service-content">
+                            <h4>Custom Business Apps</h4>
+                            <p>Tailored workflows and internal tools</p>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+                            <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"></path>
+                        </svg>
+                        <div class="service-content">
+                            <h4>App Modernization</h4>
+                            <p>UI/UX upgrade and performance boost</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Features -->
+            <div class="features-grid">
+                <div class="feature-box">
+                    <div class="feature-title">✓ Secure</div>
+                    <div class="feature-desc">Industry-standard encryption</div>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-title">✓ No Monthly Fees</div>
+                    <div class="feature-desc">One-time project fee</div>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-title">✓ Fast Delivery</div>
+                    <div class="feature-desc">5-7 days to 2-3 weeks</div>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="cta-section">
+                <h3>Ready to Automate?</h3>
+                <div class="subtitle">Get a response within 24 hours • Currently accepting new clients</div>
+                <div class="cta-contacts">
+                    <div class="cta-contact-item">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                        </svg>
+                        <span>contact@darkmoonai.com</span>
+                    </div>
+                    <div class="cta-contact-item">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                        <span>956-888-0842</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            © 2025 Darkmoon AI Solution LLC. All rights reserved.
+        </div>
+    </div>
+
+    <script>
+        // Instructions on how to save as PDF
+        console.log('To save as PDF: Click "Print" or "Download PDF" button, then choose "Save as PDF" in the print dialog.');
+    </script>
+</body>
+</html>
