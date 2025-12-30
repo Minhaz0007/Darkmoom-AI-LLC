@@ -196,22 +196,44 @@ const Navbar = () => {
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 bg-slate-900/95 backdrop-blur-lg z-[55] md:hidden" onClick={() => setMobileMenuOpen(false)}>
-          <div className="flex flex-col items-center justify-center h-full space-y-8 px-6" onClick={(e) => e.stopPropagation()}>
-            {['Process', 'Solutions'].map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setMobileMenuOpen(false)} className="text-3xl font-display font-bold text-white hover:text-brand-400 transition-colors">
+        <div
+          className="fixed inset-0 bg-white/95 backdrop-blur-xl z-[55] md:hidden animate-fade-in"
+          onClick={() => setMobileMenuOpen(false)}
+          style={{ touchAction: 'none' }}
+        >
+          <div
+            className="flex flex-col items-center justify-center h-full space-y-8 px-6 animate-slide-down"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {['Process', 'Solutions'].map((item, index) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-3xl font-display font-bold text-slate-900 hover:text-brand-600 transition-all duration-300 hover:scale-110 active:scale-95"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
                 {item}
               </a>
             ))}
-            <button onClick={() => { copyEmail(); setMobileMenuOpen(false); }} className="relative text-xl font-bold text-brand-400 hover:text-brand-300 transition-colors">
+            <button
+              onClick={() => { copyEmail(); setMobileMenuOpen(false); }}
+              className="relative text-xl font-bold text-brand-600 hover:text-brand-700 transition-all duration-300 hover:scale-110 active:scale-95"
+              style={{ animationDelay: '200ms' }}
+            >
               contact@darkmoonai.com
               {emailCopied && (
-                <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-white text-slate-900 text-xs rounded-lg shadow-lg whitespace-nowrap">
+                <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-slate-900 text-white text-xs rounded-lg shadow-lg whitespace-nowrap animate-fade-in">
                   Copied!
                 </span>
               )}
             </button>
-            <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="mt-4 px-10 py-4 bg-brand-600 text-white rounded-full font-bold text-xl shadow-xl hover:bg-brand-700 transition-all active:scale-95">
+            <a
+              href="#contact"
+              onClick={() => setMobileMenuOpen(false)}
+              className="mt-4 px-10 py-4 bg-brand-600 text-white rounded-full font-bold text-xl shadow-xl hover:bg-brand-700 transition-all duration-300 hover:scale-110 active:scale-95"
+              style={{ animationDelay: '300ms' }}
+            >
               Contact Us
             </a>
           </div>
