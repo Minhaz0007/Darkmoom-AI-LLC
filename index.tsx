@@ -161,7 +161,7 @@ const Navbar = () => {
     <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'glass-nav h-16' : 'bg-transparent h-20'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
         <div className="flex items-center justify-between h-full">
-          <a href="#home" className="flex items-center gap-2 group cursor-pointer">
+          <a href="#home" className={`flex items-center gap-2 group cursor-pointer transition-opacity duration-300 ${mobileMenuOpen ? 'md:opacity-100 opacity-0 pointer-events-none md:pointer-events-auto' : 'opacity-100'}`}>
             <div className="transform group-hover:scale-110 transition-transform duration-300">
                 <Logo activeLogo="logo2" />
             </div>
