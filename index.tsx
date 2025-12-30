@@ -28,27 +28,25 @@ const BackgroundCanvas = () => {
     let width: number, height: number;
     let animationFrameId: number;
     let time = 0;
-    const dots: Dot[] = [];
+    const nodes: Node[] = [];
 
-    // Minimal, subtle config
     const isMobile = window.innerWidth < 768;
-    const dotCount = isMobile ? 15 : 30;
+    const nodeCount = isMobile ? 40 : 80;
+    const connectionDist = isMobile ? 150 : 200;
 
-    class Dot {
+    class Node {
       x: number;
       y: number;
       vx: number;
       vy: number;
-      size: number;
-      opacity: number;
+      radius: number;
 
       constructor() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        this.vx = (Math.random() - 0.5) * 0.15;
-        this.vy = (Math.random() - 0.5) * 0.15;
-        this.size = Math.random() * 1.5 + 0.5;
-        this.opacity = Math.random() * 0.15 + 0.05;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.radius = 2;
       }
 
       update() {
@@ -57,12 +55,15 @@ const BackgroundCanvas = () => {
 
         if (this.x < 0 || this.x > width) this.vx *= -1;
         if (this.y < 0 || this.y > height) this.vy *= -1;
+
+        this.x = Math.max(0, Math.min(width, this.x));
+        this.y = Math.max(0, Math.min(height, this.y));
       }
 
       draw() {
-        ctx.fillStyle = `rgba(100, 116, 139, ${this.opacity})`;
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(3, 105, 161, 0.6)';
         ctx.fill();
       }
     }
@@ -72,10 +73,30 @@ const BackgroundCanvas = () => {
       height = canvas.height = window.innerHeight;
     };
 
-    const initDots = () => {
-      dots.length = 0;
-      for (let i = 0; i < dotCount; i++) {
-        dots.push(new Dot());
+    const initNodes = () => {
+      nodes.length = 0;
+      for (let i = 0; i < nodeCount; i++) {
+        nodes.push(new Node());
+      }
+    };
+
+    const drawConnections = () => {
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < connectionDist) {
+            const opacity = (1 - distance / connectionDist) * 0.3;
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.strokeStyle = `rgba(3, 105, 161, ${opacity})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
       }
     };
 
@@ -83,10 +104,11 @@ const BackgroundCanvas = () => {
       time += 16;
       ctx.clearRect(0, 0, width, height);
 
-      // Draw subtle dots only
-      for (let i = 0; i < dots.length; i++) {
-        dots[i].update();
-        dots[i].draw();
+      drawConnections();
+
+      for (let i = 0; i < nodes.length; i++) {
+        nodes[i].update();
+        nodes[i].draw();
       }
 
       animationFrameId = requestAnimationFrame(animate);
@@ -94,7 +116,7 @@ const BackgroundCanvas = () => {
 
     window.addEventListener('resize', resize);
     resize();
-    initDots();
+    initNodes();
     animate();
 
     return () => {
@@ -141,6 +163,10 @@ const Navbar = () => {
                     {item}
                 </a>
             ))}
+            <a href="mailto:contact@darkmoonai.com" className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm border border-slate-200 rounded-lg hover:border-brand-600 transition-all group">
+              <Mail className="h-4 w-4 text-brand-600" />
+              <span className="font-bold text-sm text-slate-900 group-hover:text-brand-600 transition-colors">contact@darkmoonai.com</span>
+            </a>
             <a href="#contact" className="relative px-6 py-2.5 bg-brand-600 text-white rounded-full text-sm font-semibold hover:bg-brand-700 transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg shadow-brand-600/30 animate-pulse">
               Contact Us
             </a>
@@ -161,6 +187,9 @@ const Navbar = () => {
                 {item}
               </a>
             ))}
+            <a href="mailto:contact@darkmoonai.com" onClick={() => setMobileMenuOpen(false)} className="text-xl font-bold text-brand-400 hover:text-brand-300 transition-colors">
+              contact@darkmoonai.com
+            </a>
             <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="mt-4 px-10 py-4 bg-brand-600 text-white rounded-full font-bold text-xl shadow-xl hover:bg-brand-700 transition-all active:scale-95">
               Contact Us
             </a>
@@ -180,9 +209,8 @@ const Hero = () => (
           <span className="text-xs font-semibold text-slate-700">Accepting New Clients</span>
         </div>
 
-        <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight">
-          Automate Work.<br />
-          <span className="text-brand-600">Focus on Growth.</span>
+        <h1 className="font-display text-5xl sm:text-6xl md:text-8xl font-bold mb-6 leading-tight">
+          <span className="gradient-text">Automate Your Manual Work</span>
         </h1>
 
         <p className="text-lg sm:text-xl text-slate-600 mb-10 max-w-2xl mx-auto">
@@ -202,73 +230,52 @@ const Hero = () => (
   </section>
 );
 
-const PainPoints = () => (
-  <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
-    <div className="max-w-6xl mx-auto">
-      <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-        <div>
-          <h2 className="font-display text-3xl sm:text-4xl font-bold mb-4 text-slate-900">Stop Wasting Time on Repetitive Work</h2>
-          <p className="text-slate-600 mb-6">
-            Your team should focus on growth, not manual data entry.
-          </p>
-          <ul className="space-y-3">
-            <li className="flex items-start gap-3">
-              <X className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
-              <span className="text-slate-700">Manual CRM to accounting sync</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <X className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
-              <span className="text-slate-700">Invoice and vendor follow-ups</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <X className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
-              <span className="text-slate-700">Hiring more staff for admin tasks</span>
-            </li>
-          </ul>
-        </div>
-        <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-6 shadow-lg">
-          <div className="flex items-center justify-between mb-6 text-xs font-bold text-slate-500 uppercase">
-            <span>Before</span>
-            <ArrowRight className="text-brand-600 h-4 w-4" />
-            <span className="text-brand-600">After</span>
-          </div>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
-              <span className="font-medium text-slate-700">Manual Entry</span>
-              <span className="text-slate-400 line-through">3hrs</span>
-            </div>
-            <div className="flex items-center justify-between p-4 bg-brand-50 rounded-lg border border-brand-200">
-              <span className="font-medium text-brand-900">Automated</span>
-              <span className="font-bold text-brand-600">Instant</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-);
 
 const Process = () => (
-  <section id="process" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-slate-50/50">
-    <div className="max-w-6xl mx-auto">
-      <div className="text-center mb-12">
-        <h2 className="font-display text-3xl sm:text-4xl font-bold mb-3">How We Work</h2>
-        <p className="text-slate-600">Four simple steps to automation.</p>
+  <section id="process" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-slate-50">
+    <div className="max-w-7xl mx-auto">
+      <div className="text-center mb-16">
+        <h2 className="font-display text-4xl sm:text-5xl font-bold mb-4 text-slate-900">How We Work</h2>
+        <p className="text-slate-600 text-lg">Four simple steps to automation.</p>
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {[
-            { step: '01', title: 'Audit', desc: 'Analyze your workflows' },
-            { step: '02', title: 'Design', desc: 'Create automation blueprint' },
-            { step: '03', title: 'Build', desc: 'Develop and test solution' },
-            { step: '04', title: 'Deploy', desc: 'Launch and train your team' }
-        ].map((item, i) => (
-            <div key={i} className="bg-white/80 backdrop-blur-sm p-6 rounded-xl border border-slate-200 hover:border-brand-300 hover:shadow-md transition-all">
-                <div className="text-4xl font-display font-bold text-brand-600 mb-3">{item.step}</div>
-                <h3 className="text-lg font-bold mb-2 text-slate-900">{item.title}</h3>
-                <p className="text-slate-600 text-sm">{item.desc}</p>
-            </div>
-        ))}
+      <div className="relative">
+        {/* Connection Line */}
+        <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-brand-400 via-brand-500 to-brand-600 transform -translate-y-1/2" style={{ zIndex: 0 }}></div>
+
+        <div className="grid lg:grid-cols-4 gap-8 lg:gap-4 relative" style={{ zIndex: 1 }}>
+          {[
+              { title: 'Audit', desc: 'Analyze your workflows', icon: '🔍' },
+              { title: 'Design', desc: 'Create automation blueprint', icon: '📐' },
+              { title: 'Build', desc: 'Develop and test solution', icon: '⚙️' },
+              { title: 'Deploy', desc: 'Launch and train your team', icon: '🚀' }
+          ].map((item, i) => (
+              <div key={i} className="relative group">
+                {/* Arrow for mobile */}
+                {i < 3 && (
+                  <div className="lg:hidden flex justify-center my-4">
+                    <ArrowRight className="h-8 w-8 text-brand-600 animate-pulse" />
+                  </div>
+                )}
+
+                <div className="bg-white p-8 rounded-2xl border-2 border-slate-200 shadow-lg hover:shadow-xl hover:border-brand-400 hover:-translate-y-2 transition-all duration-500 relative">
+                  {/* Circle connector for desktop */}
+                  <div className="hidden lg:block absolute top-1/2 -left-4 transform -translate-y-1/2 w-8 h-8 bg-brand-600 rounded-full border-4 border-white shadow-lg group-hover:scale-125 transition-transform duration-300"></div>
+
+                  {/* Arrow between cards for desktop */}
+                  {i < 3 && (
+                    <div className="hidden lg:block absolute top-1/2 -right-8 transform -translate-y-1/2 z-10">
+                      <ArrowRight className="h-6 w-6 text-brand-600 animate-pulse" />
+                    </div>
+                  )}
+
+                  <div className="text-6xl mb-4 transform group-hover:scale-110 transition-transform duration-300">{item.icon}</div>
+                  <h3 className="text-2xl font-bold mb-3 text-slate-900 group-hover:text-brand-600 transition-colors">{item.title}</h3>
+                  <p className="text-slate-600 leading-relaxed">{item.desc}</p>
+                </div>
+              </div>
+          ))}
+        </div>
       </div>
     </div>
   </section>
@@ -552,7 +559,6 @@ const App = () => {
             <Navbar />
             <main className="relative z-10">
                 <Hero />
-                <PainPoints />
                 <Process />
                 <Solutions />
                 <Pricing />
