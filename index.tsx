@@ -383,8 +383,11 @@ const Contact = () => (
                 <p className="text-slate-600">Response within 24 hours.</p>
             </div>
 
-            <form name="contact" method="POST" data-netlify="true" className="space-y-4 bg-white/80 backdrop-blur-sm p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-lg">
+            <form name="contact" method="POST" action="/#contact" data-netlify="true" data-netlify-honeypot="bot-field" className="space-y-4 bg-white/80 backdrop-blur-sm p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-lg">
                 <input type="hidden" name="form-name" value="contact" />
+                <p className="hidden">
+                    <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+                </p>
 
                 <div className="grid sm:grid-cols-2 gap-4">
                     <div>
