@@ -131,6 +131,17 @@ const BackgroundCanvas = () => {
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [emailCopied, setEmailCopied] = useState(false);
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText('contact@darkmoonai.com');
+      setEmailCopied(true);
+      setTimeout(() => setEmailCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy email:', err);
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -163,10 +174,15 @@ const Navbar = () => {
                     {item}
                 </a>
             ))}
-            <a href="mailto:contact@darkmoonai.com" className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm border border-slate-200 rounded-lg hover:border-brand-600 transition-all group">
+            <button onClick={copyEmail} className="relative flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm border border-slate-200 rounded-lg hover:border-brand-600 transition-all group cursor-pointer">
               <Mail className="h-4 w-4 text-brand-600" />
               <span className="font-bold text-sm text-slate-900 group-hover:text-brand-600 transition-colors">contact@darkmoonai.com</span>
-            </a>
+              {emailCopied && (
+                <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-slate-900 text-white text-xs rounded-lg shadow-lg whitespace-nowrap">
+                  Copied!
+                </span>
+              )}
+            </button>
             <a href="#contact" className="relative px-6 py-2.5 bg-brand-600 text-white rounded-full text-sm font-semibold hover:bg-brand-700 transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg shadow-brand-600/30 animate-pulse">
               Contact Us
             </a>
@@ -187,9 +203,14 @@ const Navbar = () => {
                 {item}
               </a>
             ))}
-            <a href="mailto:contact@darkmoonai.com" onClick={() => setMobileMenuOpen(false)} className="text-xl font-bold text-brand-400 hover:text-brand-300 transition-colors">
+            <button onClick={() => { copyEmail(); setMobileMenuOpen(false); }} className="relative text-xl font-bold text-brand-400 hover:text-brand-300 transition-colors">
               contact@darkmoonai.com
-            </a>
+              {emailCopied && (
+                <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-white text-slate-900 text-xs rounded-lg shadow-lg whitespace-nowrap">
+                  Copied!
+                </span>
+              )}
+            </button>
             <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="mt-4 px-10 py-4 bg-brand-600 text-white rounded-full font-bold text-xl shadow-xl hover:bg-brand-700 transition-all active:scale-95">
               Contact Us
             </a>
@@ -375,76 +396,99 @@ const FAQ = () => {
     );
 };
 
-const Contact = () => (
-    <section id="contact" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-lg mx-auto">
-            <div className="text-center mb-8">
-                <h2 className="font-display text-3xl sm:text-4xl font-bold mb-3 text-slate-900">Get Started</h2>
-                <p className="text-slate-600">Response within 24 hours.</p>
-            </div>
+const Contact = () => {
+    const [emailCopied, setEmailCopied] = useState(false);
 
-            <form name="contact" method="POST" action="/#contact" data-netlify="true" data-netlify-honeypot="bot-field" className="space-y-4 bg-white/80 backdrop-blur-sm p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-lg">
-                <input type="hidden" name="form-name" value="contact" />
-                <p className="hidden">
-                    <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-                </p>
+    const copyEmail = async () => {
+        try {
+            await navigator.clipboard.writeText('contact@darkmoonai.com');
+            setEmailCopied(true);
+            setTimeout(() => setEmailCopied(false), 2000);
+        } catch (err) {
+            console.error('Failed to copy email:', err);
+        }
+    };
 
-                <div className="grid sm:grid-cols-2 gap-4">
+    return (
+        <section id="contact" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-lg mx-auto">
+                <div className="text-center mb-8">
+                    <h2 className="font-display text-3xl sm:text-4xl font-bold mb-3 text-slate-900">Get Started</h2>
+                    <p className="text-slate-600">Response within 24 hours.</p>
+                </div>
+
+                <form name="contact" method="POST" action="/#contact" data-netlify="true" data-netlify-honeypot="bot-field" className="space-y-4 bg-white/80 backdrop-blur-sm p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-lg">
+                    <input type="hidden" name="form-name" value="contact" />
+                    <p className="hidden">
+                        <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+                    </p>
+
+                    <div className="grid sm:grid-cols-2 gap-4">
+                        <div>
+                            <label className="text-sm font-semibold text-slate-700 mb-1 block">First Name</label>
+                            <input
+                                type="text"
+                                name="firstName"
+                                required
+                                className="w-full px-4 py-3 bg-white border border-slate-300 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition-all"
+                                placeholder="Jane"
+                            />
+                        </div>
+                        <div>
+                            <label className="text-sm font-semibold text-slate-700 mb-1 block">Last Name</label>
+                            <input
+                                type="text"
+                                name="lastName"
+                                required
+                                className="w-full px-4 py-3 bg-white border border-slate-300 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition-all"
+                                placeholder="Doe"
+                            />
+                        </div>
+                    </div>
+
                     <div>
-                        <label className="text-sm font-semibold text-slate-700 mb-1 block">First Name</label>
+                        <label className="text-sm font-semibold text-slate-700 mb-1 block">Email</label>
                         <input
-                            type="text"
-                            name="firstName"
+                            type="email"
+                            name="email"
                             required
                             className="w-full px-4 py-3 bg-white border border-slate-300 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition-all"
-                            placeholder="Jane"
+                            placeholder="jane@company.com"
                         />
                     </div>
+
                     <div>
-                        <label className="text-sm font-semibold text-slate-700 mb-1 block">Last Name</label>
-                        <input
-                            type="text"
-                            name="lastName"
+                        <label className="text-sm font-semibold text-slate-700 mb-1 block">What do you need?</label>
+                        <textarea
+                            name="message"
+                            rows={4}
                             required
-                            className="w-full px-4 py-3 bg-white border border-slate-300 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition-all"
-                            placeholder="Doe"
-                        />
+                            className="w-full px-4 py-3 bg-white border border-slate-300 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition-all resize-none"
+                            placeholder="Describe your automation needs..."
+                        ></textarea>
+                    </div>
+
+                    <button type="submit" className="w-full py-4 bg-brand-600 text-white rounded-lg font-bold hover:bg-brand-700 transition-all hover:scale-105 active:scale-95 shadow-lg">
+                        Send Message
+                    </button>
+                </form>
+
+                <div className="text-center mt-6">
+                    <div className="relative inline-block">
+                        <button onClick={copyEmail} className="text-slate-500 text-sm hover:text-brand-600 transition-colors cursor-pointer">
+                            contact@darkmoonai.com
+                        </button>
+                        {emailCopied && (
+                            <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-slate-900 text-white text-xs rounded-lg shadow-lg whitespace-nowrap">
+                                Copied!
+                            </span>
+                        )}
                     </div>
                 </div>
-
-                <div>
-                    <label className="text-sm font-semibold text-slate-700 mb-1 block">Email</label>
-                    <input
-                        type="email"
-                        name="email"
-                        required
-                        className="w-full px-4 py-3 bg-white border border-slate-300 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition-all"
-                        placeholder="jane@company.com"
-                    />
-                </div>
-
-                <div>
-                    <label className="text-sm font-semibold text-slate-700 mb-1 block">What do you need?</label>
-                    <textarea
-                        name="message"
-                        rows={4}
-                        required
-                        className="w-full px-4 py-3 bg-white border border-slate-300 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition-all resize-none"
-                        placeholder="Describe your automation needs..."
-                    ></textarea>
-                </div>
-
-                <button type="submit" className="w-full py-4 bg-brand-600 text-white rounded-lg font-bold hover:bg-brand-700 transition-all hover:scale-105 active:scale-95 shadow-lg">
-                    Send Message
-                </button>
-            </form>
-
-            <div className="text-center mt-6">
-                <a href="mailto:contact@darkmoonai.com" className="text-slate-500 text-sm hover:text-brand-600 transition-colors">contact@darkmoonai.com</a>
             </div>
-        </div>
-    </section>
-);
+        </section>
+    );
+};
 
 const Footer = () => (
     <footer className="bg-white border-t border-slate-200 py-12 px-4">
