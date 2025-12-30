@@ -154,11 +154,11 @@ const Navbar = () => {
             <div className="transform group-hover:scale-110 transition-transform duration-300">
                 <Logo activeLogo="logo2" />
             </div>
-            <span className="font-display font-bold text-lg sm:text-xl tracking-tight text-slate-900">DARKMOON<span className="text-brand-600">.AI</span></span>
+            <span className="font-display font-bold text-lg sm:text-xl tracking-tight text-slate-900">DARKMOON <span className="gradient-text">AI</span></span>
           </a>
 
           <div className="hidden md:flex items-center gap-6">
-            {['Process', 'Solutions', 'Services'].map((item) => (
+            {['Process', 'Solutions'].map((item) => (
                 <a key={item} href={`#${item.toLowerCase()}`} className="text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors">
                     {item}
                 </a>
@@ -182,7 +182,7 @@ const Navbar = () => {
       {mobileMenuOpen && (
         <div className="fixed inset-0 bg-slate-900/95 backdrop-blur-lg z-[55] md:hidden" onClick={() => setMobileMenuOpen(false)}>
           <div className="flex flex-col items-center justify-center h-full space-y-8 px-6" onClick={(e) => e.stopPropagation()}>
-            {['Process', 'Solutions', 'Services'].map((item) => (
+            {['Process', 'Solutions'].map((item) => (
               <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setMobileMenuOpen(false)} className="text-3xl font-display font-bold text-white hover:text-brand-400 transition-colors">
                 {item}
               </a>
@@ -341,52 +341,6 @@ const Solutions = () => {
     );
 };
 
-const Pricing = () => (
-  <section id="services" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-slate-50/50">
-    <div className="max-w-6xl mx-auto">
-      <div className="text-center mb-10">
-        <h2 className="font-display text-3xl sm:text-4xl font-bold mb-3">Pricing Packages</h2>
-        <p className="text-slate-600">Choose your engagement level.</p>
-      </div>
-
-      <div className="grid sm:grid-cols-3 gap-6">
-        <div className="bg-white/80 backdrop-blur-sm p-6 rounded-xl border border-slate-200 hover:border-brand-300 transition-all">
-          <h3 className="font-bold text-xl mb-2 text-slate-900">Starter</h3>
-          <p className="text-slate-500 text-sm mb-6">Single workflow automation</p>
-          <ul className="space-y-3 mb-6 text-sm text-slate-600">
-            <li className="flex gap-2"><Check className="h-4 w-4 text-brand-600 mt-0.5 flex-shrink-0" /> 1 automation workflow</li>
-            <li className="flex gap-2"><Check className="h-4 w-4 text-brand-600 mt-0.5 flex-shrink-0" /> Standard integrations</li>
-            <li className="flex gap-2"><Check className="h-4 w-4 text-brand-600 mt-0.5 flex-shrink-0" /> 1 week delivery</li>
-          </ul>
-          <a href="#contact" className="block text-center py-3 border border-slate-300 rounded-lg font-semibold text-slate-700 hover:border-brand-600 hover:text-brand-600 transition-all">Get Quote</a>
-        </div>
-
-        <div className="bg-brand-600 text-white p-6 rounded-xl shadow-xl relative">
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-slate-900 px-3 py-1 rounded-full text-xs font-bold">Popular</div>
-          <h3 className="font-bold text-xl mb-2">Growth</h3>
-          <p className="text-brand-100 text-sm mb-6">Multi-step automation</p>
-          <ul className="space-y-3 mb-6 text-sm">
-            <li className="flex gap-2"><Check className="h-4 w-4 mt-0.5 flex-shrink-0" /> Multiple workflows</li>
-            <li className="flex gap-2"><Check className="h-4 w-4 mt-0.5 flex-shrink-0" /> Custom APIs</li>
-            <li className="flex gap-2"><Check className="h-4 w-4 mt-0.5 flex-shrink-0" /> Priority support</li>
-          </ul>
-          <a href="#contact" className="block text-center py-3 bg-white text-brand-600 rounded-lg font-semibold hover:bg-slate-50 transition-all">Get Quote</a>
-        </div>
-
-        <div className="bg-white/80 backdrop-blur-sm p-6 rounded-xl border border-slate-200 hover:border-brand-300 transition-all">
-          <h3 className="font-bold text-xl mb-2 text-slate-900">Enterprise</h3>
-          <p className="text-slate-500 text-sm mb-6">Full-scale automation</p>
-          <ul className="space-y-3 mb-6 text-sm text-slate-600">
-            <li className="flex gap-2"><Check className="h-4 w-4 text-brand-600 mt-0.5 flex-shrink-0" /> Full-stack development</li>
-            <li className="flex gap-2"><Check className="h-4 w-4 text-brand-600 mt-0.5 flex-shrink-0" /> SLA & retainers</li>
-            <li className="flex gap-2"><Check className="h-4 w-4 text-brand-600 mt-0.5 flex-shrink-0" /> Dedicated manager</li>
-          </ul>
-          <a href="#contact" className="block text-center py-3 border border-slate-300 rounded-lg font-semibold text-slate-700 hover:border-brand-600 hover:text-brand-600 transition-all">Get Quote</a>
-        </div>
-      </div>
-    </div>
-  </section>
-);
 
 const FAQ = () => {
     const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
@@ -493,20 +447,11 @@ const Contact = () => (
 );
 
 const Footer = () => (
-    <footer className="bg-slate-50 border-t border-slate-200 py-8 px-4">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-2">
-                <Logo activeLogo="logo2" />
-                <span className="font-display font-bold text-slate-900">DARKMOON.AI</span>
-            </div>
-            <div className="flex gap-6 text-sm text-slate-600">
-                <a href="#process" className="hover:text-brand-600 transition-colors">Process</a>
-                <a href="#solutions" className="hover:text-brand-600 transition-colors">Solutions</a>
-                <a href="#services" className="hover:text-brand-600 transition-colors">Pricing</a>
-            </div>
-            <div className="text-sm text-slate-500">
-                &copy; 2025 Darkmoon AI
-            </div>
+    <footer className="bg-white border-t border-slate-200 py-12 px-4">
+        <div className="max-w-6xl mx-auto text-center">
+            <p className="text-slate-600 text-sm">
+                © 2025 Darkmoon AI Solution LLC. All rights reserved.
+            </p>
         </div>
     </footer>
 );
@@ -561,7 +506,6 @@ const App = () => {
                 <Hero />
                 <Process />
                 <Solutions />
-                <Pricing />
                 <FAQ />
                 <Contact />
             </main>
