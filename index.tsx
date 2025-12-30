@@ -259,11 +259,6 @@ const Process = () => (
                 )}
 
                 <div className="bg-white p-8 rounded-2xl border-2 border-slate-200 shadow-lg hover:shadow-2xl hover:border-brand-400 hover:-translate-y-3 transition-all duration-500 relative">
-                  {/* Animated Circle connector for desktop */}
-                  <div className="hidden lg:block absolute top-1/2 -left-4 transform -translate-y-1/2 w-10 h-10 bg-brand-600 rounded-full border-4 border-white shadow-lg group-hover:scale-150 transition-all duration-500">
-                    <div className="absolute inset-0 bg-brand-400 rounded-full animate-ping opacity-75"></div>
-                  </div>
-
                   {/* Continuously Animated Arrow between cards for desktop */}
                   {i < 3 && (
                     <div className="hidden lg:block absolute top-1/2 -right-10 transform -translate-y-1/2 z-10">
