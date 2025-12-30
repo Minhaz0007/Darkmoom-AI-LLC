@@ -240,8 +240,8 @@ const Process = () => (
       </div>
 
       <div className="relative">
-        {/* Connection Line */}
-        <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-brand-400 via-brand-500 to-brand-600 transform -translate-y-1/2" style={{ zIndex: 0 }}></div>
+        {/* Animated Connection Line */}
+        <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-1 process-line transform -translate-y-1/2 rounded-full" style={{ zIndex: 0 }}></div>
 
         <div className="grid lg:grid-cols-4 gap-8 lg:gap-4 relative" style={{ zIndex: 1 }}>
           {[
@@ -251,26 +251,28 @@ const Process = () => (
               { title: 'Deploy', desc: 'Launch and train your team', icon: '🚀' }
           ].map((item, i) => (
               <div key={i} className="relative group">
-                {/* Arrow for mobile */}
+                {/* Animated Arrow for mobile */}
                 {i < 3 && (
-                  <div className="lg:hidden flex justify-center my-4">
-                    <ArrowRight className="h-8 w-8 text-brand-600 animate-pulse" />
+                  <div className="lg:hidden flex justify-center my-6">
+                    <ArrowRight className="h-8 w-8 text-brand-600 arrow-animate" />
                   </div>
                 )}
 
-                <div className="bg-white p-8 rounded-2xl border-2 border-slate-200 shadow-lg hover:shadow-xl hover:border-brand-400 hover:-translate-y-2 transition-all duration-500 relative">
-                  {/* Circle connector for desktop */}
-                  <div className="hidden lg:block absolute top-1/2 -left-4 transform -translate-y-1/2 w-8 h-8 bg-brand-600 rounded-full border-4 border-white shadow-lg group-hover:scale-125 transition-transform duration-300"></div>
+                <div className="bg-white p-8 rounded-2xl border-2 border-slate-200 shadow-lg hover:shadow-2xl hover:border-brand-400 hover:-translate-y-3 transition-all duration-500 relative">
+                  {/* Animated Circle connector for desktop */}
+                  <div className="hidden lg:block absolute top-1/2 -left-4 transform -translate-y-1/2 w-10 h-10 bg-brand-600 rounded-full border-4 border-white shadow-lg group-hover:scale-150 transition-all duration-500">
+                    <div className="absolute inset-0 bg-brand-400 rounded-full animate-ping opacity-75"></div>
+                  </div>
 
-                  {/* Arrow between cards for desktop */}
+                  {/* Continuously Animated Arrow between cards for desktop */}
                   {i < 3 && (
-                    <div className="hidden lg:block absolute top-1/2 -right-8 transform -translate-y-1/2 z-10">
-                      <ArrowRight className="h-6 w-6 text-brand-600 animate-pulse" />
+                    <div className="hidden lg:block absolute top-1/2 -right-10 transform -translate-y-1/2 z-10">
+                      <ArrowRight className="h-7 w-7 text-brand-600 arrow-animate drop-shadow-lg" />
                     </div>
                   )}
 
-                  <div className="text-6xl mb-4 transform group-hover:scale-110 transition-transform duration-300">{item.icon}</div>
-                  <h3 className="text-2xl font-bold mb-3 text-slate-900 group-hover:text-brand-600 transition-colors">{item.title}</h3>
+                  <div className="text-7xl mb-4 transform group-hover:scale-125 group-hover:rotate-12 transition-all duration-500">{item.icon}</div>
+                  <h3 className="text-2xl font-bold mb-3 text-slate-900 group-hover:text-brand-600 transition-colors duration-300">{item.title}</h3>
                   <p className="text-slate-600 leading-relaxed">{item.desc}</p>
                 </div>
               </div>
@@ -309,30 +311,30 @@ const Solutions = () => {
 
                 <div className="space-y-3">
                     {services.map((service, index) => (
-                        <div key={index} className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-lg overflow-hidden hover:border-brand-300 transition-all">
+                        <div key={index} className="bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl overflow-hidden hover:border-brand-300 hover:shadow-md transition-all duration-300">
                             <button
                                 onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
-                                className="w-full flex items-center justify-between p-4 text-left hover:bg-slate-50 transition-colors"
+                                className="w-full flex items-center justify-between p-5 text-left hover:bg-slate-50/50 transition-all duration-300"
                             >
                                 <div className="flex items-center gap-3">
-                                    <div className={`h-2 w-2 rounded-full ${expandedIndex === index ? 'bg-brand-600' : 'bg-slate-300'}`}></div>
-                                    <h3 className="font-bold text-slate-900">{service.title}</h3>
+                                    <div className={`h-2.5 w-2.5 rounded-full transition-all duration-500 ${expandedIndex === index ? 'bg-brand-600 scale-125' : 'bg-slate-300'}`}></div>
+                                    <h3 className={`font-bold transition-colors duration-300 ${expandedIndex === index ? 'text-brand-600' : 'text-slate-900'}`}>{service.title}</h3>
                                 </div>
-                                <ChevronDown className={`h-5 w-5 text-slate-400 transition-transform ${expandedIndex === index ? 'rotate-180' : ''}`} />
+                                <ChevronDown className={`h-5 w-5 text-slate-400 transition-all duration-500 ${expandedIndex === index ? 'rotate-180 text-brand-600' : ''}`} />
                             </button>
 
-                            {expandedIndex === index && (
-                                <div className="px-4 pb-4 pl-9">
-                                    <ul className="space-y-2">
+                            <div className={`card-content ${expandedIndex === index ? 'expanded' : ''}`}>
+                                <div className="px-5 pb-5 pl-12">
+                                    <ul className="space-y-2.5">
                                         {service.points.map((point, i) => (
-                                            <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
+                                            <li key={i} className="flex items-start gap-2.5 text-sm text-slate-600 transform transition-all duration-300" style={{ transitionDelay: `${i * 50}ms` }}>
                                                 <Check className="h-4 w-4 text-brand-600 mt-0.5 flex-shrink-0" />
                                                 {point}
                                             </li>
                                         ))}
                                     </ul>
                                 </div>
-                            )}
+                            </div>
                         </div>
                     ))}
                 </div>
