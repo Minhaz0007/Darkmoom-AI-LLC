@@ -27,12 +27,84 @@ const BackgroundCanvas = () => {
 
     let width: number, height: number;
     let animationFrameId: number;
+    let time = 0;
     const particles: Particle[] = [];
-    
+    const blobs: Blob[] = [];
+
     // Config: Smoother, more abstract feel
     const isMobile = window.innerWidth < 768;
-    const particleCount = isMobile ? 25 : 60;
-    const connectionDist = isMobile ? 100 : 180;
+    const particleCount = isMobile ? 30 : 70;
+    const connectionDist = isMobile ? 120 : 200;
+    const blobCount = isMobile ? 3 : 5;
+
+    // Abstract floating blobs
+    class Blob {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      radius: number;
+      color: string;
+      phase: number;
+
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.3;
+        this.vy = (Math.random() - 0.5) * 0.3;
+        this.radius = Math.random() * 150 + 100;
+        this.phase = Math.random() * Math.PI * 2;
+
+        // Various brand colors for abstract feel
+        const colors = [
+          'rgba(3, 105, 161, 0.08)',  // brand-600
+          'rgba(14, 165, 233, 0.06)', // brand-400
+          'rgba(224, 242, 254, 0.15)', // brand-100
+          'rgba(139, 92, 246, 0.05)', // purple
+          'rgba(236, 72, 153, 0.05)', // pink
+        ];
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+      }
+
+      update(deltaTime: number) {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        // Bounce with easing
+        if (this.x < -this.radius || this.x > width + this.radius) this.vx *= -1;
+        if (this.y < -this.radius || this.y > height + this.radius) this.vy *= -1;
+
+        // Keep blobs within bounds
+        this.x = Math.max(-this.radius, Math.min(width + this.radius, this.x));
+        this.y = Math.max(-this.radius, Math.min(height + this.radius, this.y));
+      }
+
+      draw(t: number) {
+        if (!ctx) return;
+
+        // Create organic blob shape using perlin-like movement
+        const points = 8;
+        ctx.beginPath();
+
+        for (let i = 0; i <= points; i++) {
+          const angle = (i / points) * Math.PI * 2;
+          const wobble = Math.sin(t * 0.001 + this.phase + angle * 2) * 15;
+          const r = this.radius + wobble;
+          const x = this.x + Math.cos(angle) * r;
+          const y = this.y + Math.sin(angle) * r;
+
+          if (i === 0) {
+            ctx.moveTo(x, y);
+          } else {
+            ctx.lineTo(x, y);
+          }
+        }
+
+        ctx.closePath();
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      }
+    }
 
     class Particle {
       x: number;
@@ -41,31 +113,40 @@ const BackgroundCanvas = () => {
       vy: number;
       size: number;
       baseOpacity: number;
+      hue: number;
 
       constructor() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        // Slower velocity for "floating" feel
-        this.vx = (Math.random() - 0.5) * 0.2; 
-        this.vy = (Math.random() - 0.5) * 0.2;
-        this.size = Math.random() * 2 + 0.5;
-        this.baseOpacity = Math.random() * 0.5 + 0.1;
+        this.vx = (Math.random() - 0.5) * 0.3;
+        this.vy = (Math.random() - 0.5) * 0.3;
+        this.size = Math.random() * 3 + 0.5;
+        this.baseOpacity = Math.random() * 0.6 + 0.2;
+        this.hue = Math.random() * 60 + 190; // Blue-ish hues
       }
 
       update() {
         this.x += this.vx;
         this.y += this.vy;
-        
-        // Gentle bounce off edges instead of hard reset for smoother visuals
+
         if (this.x < 0 || this.x > width) this.vx *= -1;
         if (this.y < 0 || this.y > height) this.vy *= -1;
       }
 
-      draw() {
+      draw(t: number) {
         if (!ctx) return;
-        ctx.fillStyle = `rgba(148, 163, 184, ${this.baseOpacity})`;
+        // Pulsing effect
+        const pulse = Math.sin(t * 0.002 + this.x * 0.01) * 0.3 + 0.7;
+        const opacity = this.baseOpacity * pulse;
+
+        // Create glow effect
+        const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 2);
+        gradient.addColorStop(0, `hsla(${this.hue}, 70%, 60%, ${opacity})`);
+        gradient.addColorStop(1, `hsla(${this.hue}, 70%, 60%, 0)`);
+
+        ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
         ctx.fill();
       }
     }
@@ -76,20 +157,37 @@ const BackgroundCanvas = () => {
     };
 
     const initParticles = () => {
-        particles.length = 0;
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle());
-        }
-    }
+      particles.length = 0;
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+    };
+
+    const initBlobs = () => {
+      blobs.length = 0;
+      for (let i = 0; i < blobCount; i++) {
+        blobs.push(new Blob());
+      }
+    };
 
     const animate = () => {
-      ctx.clearRect(0, 0, width, height);
+      time += 16; // Approximate frame time
 
-      // Draw connections first (behind dots)
+      // Soft clear with fade effect for trails
+      ctx.fillStyle = 'rgba(248, 250, 252, 0.3)';
+      ctx.fillRect(0, 0, width, height);
+
+      // Draw blobs first (background layer)
+      for (let i = 0; i < blobs.length; i++) {
+        blobs[i].update(16);
+        blobs[i].draw(time);
+      }
+
+      // Draw mesh/grid effect
       ctx.lineWidth = 0.5;
       for (let i = 0; i < particles.length; i++) {
         const p1 = particles[i];
-        
+
         for (let j = i + 1; j < particles.length; j++) {
           const p2 = particles[j];
           const dx = p1.x - p2.x;
@@ -97,9 +195,9 @@ const BackgroundCanvas = () => {
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < connectionDist) {
-            // Smooth opacity falloff
-            const opacity = (1 - dist / connectionDist) * 0.15;
-            ctx.strokeStyle = `rgba(148, 163, 184, ${opacity})`;
+            const opacity = (1 - dist / connectionDist) * 0.3;
+            const hue = (p1.hue + p2.hue) / 2;
+            ctx.strokeStyle = `hsla(${hue}, 60%, 50%, ${opacity})`;
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
@@ -108,10 +206,10 @@ const BackgroundCanvas = () => {
         }
       }
 
-      // Draw particles on top
+      // Draw particles with glow
       for (let i = 0; i < particles.length; i++) {
-          particles[i].update();
-          particles[i].draw();
+        particles[i].update();
+        particles[i].draw(time);
       }
 
       animationFrameId = requestAnimationFrame(animate);
@@ -120,6 +218,7 @@ const BackgroundCanvas = () => {
     window.addEventListener('resize', resize);
     resize();
     initParticles();
+    initBlobs();
     animate();
 
     return () => {
@@ -612,9 +711,9 @@ const Footer = () => (
                 <span className="font-display font-bold text-slate-700">Darkmoon AI</span>
             </div>
             <div className="flex gap-8 text-sm text-slate-500 font-medium">
-                <a href="#about" className="hover:text-brand-600 transition-all duration-300 hover:translate-x-0.5 inline-block">About</a>
-                <a href="#privacy" className="hover:text-brand-600 transition-all duration-300 hover:translate-x-0.5 inline-block">Privacy Policy</a>
-                <a href="#terms" className="hover:text-brand-600 transition-all duration-300 hover:translate-x-0.5 inline-block">Terms</a>
+                <a href="#process" className="hover:text-brand-600 transition-all duration-300 hover:translate-x-0.5 inline-block">Process</a>
+                <a href="#solutions" className="hover:text-brand-600 transition-all duration-300 hover:translate-x-0.5 inline-block">Solutions</a>
+                <a href="#services" className="hover:text-brand-600 transition-all duration-300 hover:translate-x-0.5 inline-block">Services</a>
             </div>
             <div className="text-sm text-slate-400">
                 &copy; 2025 Darkmoon AI Solution.
@@ -635,6 +734,34 @@ const App = () => {
         }, { threshold: 0.1 });
 
         document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+
+        // Enhanced smooth scroll with navbar offset
+        const handleAnchorClick = (e: Event) => {
+            const target = e.target as HTMLAnchorElement;
+            if (target.tagName === 'A' && target.hash) {
+                const href = target.getAttribute('href');
+                if (href?.startsWith('#')) {
+                    e.preventDefault();
+                    const element = document.querySelector(href);
+                    if (element) {
+                        const navbarHeight = 80;
+                        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+                        const offsetPosition = elementPosition - navbarHeight;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            }
+        };
+
+        document.addEventListener('click', handleAnchorClick);
+
+        return () => {
+            document.removeEventListener('click', handleAnchorClick);
+        };
     }, []);
 
     return (
