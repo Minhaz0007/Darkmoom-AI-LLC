@@ -178,7 +178,7 @@ const Navbar = () => {
               <Mail className="h-4 w-4 text-brand-600" />
               <span className="font-bold text-sm text-slate-900 group-hover:text-brand-600 transition-colors">contact@darkmoonai.com</span>
               {emailCopied && (
-                <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-slate-900 text-white text-xs rounded-lg shadow-lg whitespace-nowrap">
+                <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-3 py-1 bg-slate-900 text-white text-xs rounded-lg shadow-lg whitespace-nowrap">
                   Copied!
                 </span>
               )}
