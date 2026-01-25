@@ -8,13 +8,7 @@ import {
 
 // --- COMPONENTS ---
 
-const Logo = ({ activeLogo = 'logo2' }) => (
-    <svg viewBox="0 0 40 40" fill="none" className="h-8 w-8 text-brand-600">
-      <path d="M8 8V32H20C26.6274 32 32 26.6274 32 20C32 13.3726 26.6274 8 20 8H8Z" stroke="currentColor" strokeWidth="2.5"/>
-      <path d="M12 12V28" stroke="currentColor" strokeWidth="2.5"/>
-      <path d="M24 20L36 32" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
-    </svg>
-);
+import logo from './darkmoon-logo.png';
 
 const BackgroundCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -117,7 +111,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-full">
           <a href="#home" className={`flex items-center gap-2 group cursor-pointer transition-opacity duration-300 ${mobileMenuOpen ? 'md:opacity-100 opacity-0 pointer-events-none md:pointer-events-auto' : 'opacity-100'}`}>
             <div className="transform group-hover:scale-110 transition-transform duration-300">
-                <Logo activeLogo="logo2" />
+                <img src={logo} alt="Darkmoon AI Logo" className="h-10 w-auto object-contain" />
             </div>
             <span className="font-display font-bold text-lg sm:text-xl tracking-tight text-slate-900">DARKMOON <span className="gradient-text">AI</span></span>
           </a>
