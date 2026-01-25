@@ -188,7 +188,13 @@ const Navbar = () => {
             </a>
           </div>
 
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-slate-900 p-2 rounded-lg transition-colors active:scale-90 z-[60]">
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle mobile menu"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu-overlay"
+            className="md:hidden text-slate-900 p-2 rounded-lg transition-colors active:scale-90 z-[60]"
+          >
             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
@@ -197,6 +203,7 @@ const Navbar = () => {
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
         <div
+          id="mobile-menu-overlay"
           className="fixed inset-0 bg-white/95 backdrop-blur-xl z-[55] md:hidden animate-fade-in"
           onClick={() => setMobileMenuOpen(false)}
           style={{ touchAction: 'none' }}
@@ -352,16 +359,23 @@ const Solutions = () => {
                         <div key={index} className="bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl overflow-hidden hover:border-brand-300 hover:shadow-md transition-all duration-300">
                             <button
                                 onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
+                                aria-expanded={expandedIndex === index}
+                                aria-controls={`solution-content-${index}`}
                                 className="w-full flex items-center justify-between p-5 text-left hover:bg-slate-50/50 transition-all duration-300"
                             >
                                 <div className="flex items-center gap-3">
                                     <div className={`h-2.5 w-2.5 rounded-full transition-all duration-500 ${expandedIndex === index ? 'bg-brand-600 scale-125' : 'bg-slate-300'}`}></div>
-                                    <h3 className={`font-bold transition-colors duration-300 ${expandedIndex === index ? 'text-brand-600' : 'text-slate-900'}`}>{service.title}</h3>
+                                    <h3 id={`solution-heading-${index}`} className={`font-bold transition-colors duration-300 ${expandedIndex === index ? 'text-brand-600' : 'text-slate-900'}`}>{service.title}</h3>
                                 </div>
                                 <ChevronDown className={`h-5 w-5 text-slate-400 transition-all duration-500 ${expandedIndex === index ? 'rotate-180 text-brand-600' : ''}`} />
                             </button>
 
-                            <div className={`card-content ${expandedIndex === index ? 'expanded' : ''}`}>
+                            <div
+                                id={`solution-content-${index}`}
+                                role="region"
+                                aria-labelledby={`solution-heading-${index}`}
+                                className={`card-content ${expandedIndex === index ? 'expanded' : ''}`}
+                            >
                                 <div className="px-5 pb-5 pl-12">
                                     <ul className="space-y-2.5">
                                         {service.points.map((point, i) => (
@@ -400,13 +414,20 @@ const FAQ = () => {
                         <div key={i} className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-lg overflow-hidden">
                             <button
                                 onClick={() => setExpandedFAQ(expandedFAQ === i ? null : i)}
+                                aria-expanded={expandedFAQ === i}
+                                aria-controls={`faq-content-${i}`}
                                 className="w-full flex items-center justify-between p-4 text-left hover:bg-slate-50 transition-colors"
                             >
-                                <h3 className="font-bold text-slate-900">{item.q}</h3>
+                                <h3 id={`faq-heading-${i}`} className="font-bold text-slate-900">{item.q}</h3>
                                 <ChevronDown className={`h-5 w-5 text-slate-400 transition-transform flex-shrink-0 ${expandedFAQ === i ? 'rotate-180' : ''}`} />
                             </button>
                             {expandedFAQ === i && (
-                                <div className="px-4 pb-4">
+                                <div
+                                    id={`faq-content-${i}`}
+                                    role="region"
+                                    aria-labelledby={`faq-heading-${i}`}
+                                    className="px-4 pb-4"
+                                >
                                     <p className="text-slate-600 text-sm">{item.a}</p>
                                 </div>
                             )}
