@@ -13,22 +13,23 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
                         brand: {
                             50: '#f0f9ff',
                             100: '#e0f2fe',
-                            // Shifted darker for accessibility
-                            400: '#0ea5e9', // Sky-500
-                            500: '#0284c7', // Sky-600
-                            600: '#0369a1', // Sky-700 (Primary accessible text/bg)
-                            700: '#075985', // Sky-800
-                            900: '#0c4a6e', // Sky-900
+                            400: '#38bdf8', // Sky-400 (Brighter for dark mode)
+                            500: '#0ea5e9', // Sky-500
+                            600: '#0284c7', // Sky-600
+                            700: '#0369a1',
+                            900: '#0c4a6e',
                         },
                         slate: {
                             850: '#1e293b',
                             900: '#0f172a',
+                            950: '#020617', // Deepest dark
                         }
                     },
                     fontFamily: {
@@ -68,8 +69,8 @@
     </script>
     <style>
         body { 
-            background-color: #f8fafc; 
-            color: #0f172a;
+            background-color: #020617;
+            color: #f8fafc;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
@@ -78,28 +79,28 @@
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: transparent;
+            background: #0f172a;
         }
         ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
+            background: #334155;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
+            background: #475569;
         }
 
         .glass-nav {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(2, 6, 23, 0.8);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+            border-bottom: 1px solid rgba(30, 41, 59, 0.5);
         }
         .glass-card {
-            background: rgba(255, 255, 255, 0.75);
+            background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
         }
         
         /* High-performance scroll reveal */
@@ -145,12 +146,13 @@
         }
 
         .gradient-text {
-            background: linear-gradient(90deg, #0369a1, #0ea5e9, #06b6d4, #0ea5e9, #0369a1);
+            background: linear-gradient(90deg, #38bdf8, #818cf8, #2dd4bf, #818cf8, #38bdf8);
             background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             animation: gradient-flow 3s ease infinite;
+            text-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
         }
 
         /* Smooth card expansion */
