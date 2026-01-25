@@ -28,87 +28,42 @@ const BackgroundCanvas = () => {
     let width: number, height: number;
     let animationFrameId: number;
     let time = 0;
-    const nodes: Node[] = [];
-
-    const isMobile = window.innerWidth < 768;
-    const nodeCount = isMobile ? 40 : 80;
-    const connectionDist = isMobile ? 150 : 200;
-
-    class Node {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      radius: number;
-
-      constructor() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
-        this.radius = 2;
-      }
-
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        if (this.x < 0 || this.x > width) this.vx *= -1;
-        if (this.y < 0 || this.y > height) this.vy *= -1;
-
-        this.x = Math.max(0, Math.min(width, this.x));
-        this.y = Math.max(0, Math.min(height, this.y));
-      }
-
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(3, 105, 161, 0.6)';
-        ctx.fill();
-      }
-    }
 
     const resize = () => {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
     };
 
-    const initNodes = () => {
-      nodes.length = 0;
-      for (let i = 0; i < nodeCount; i++) {
-        nodes.push(new Node());
-      }
-    };
-
-    const drawConnections = () => {
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const dx = nodes[i].x - nodes[j].x;
-          const dy = nodes[i].y - nodes[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < connectionDist) {
-            const opacity = (1 - distance / connectionDist) * 0.3;
-            ctx.beginPath();
-            ctx.moveTo(nodes[i].x, nodes[i].y);
-            ctx.lineTo(nodes[j].x, nodes[j].y);
-            ctx.strokeStyle = `rgba(3, 105, 161, ${opacity})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        }
-      }
-    };
-
     const animate = () => {
-      time += 16;
+      time += 0.015;
       ctx.clearRect(0, 0, width, height);
 
-      drawConnections();
+      const gap = 30;
+      const rows = Math.ceil(height / gap);
+      const cols = Math.ceil(width / gap);
 
-      for (let i = 0; i < nodes.length; i++) {
-        nodes[i].update();
-        nodes[i].draw();
+      ctx.fillStyle = 'rgba(148, 163, 184, 0.35)'; // Subtle slate
+
+      for (let row = 0; row <= rows; row++) {
+        for (let col = 0; col <= cols; col++) {
+          const x = col * gap;
+          const baseY = row * gap;
+
+          // Wave calculation
+          // frequency: determines how tight the waves are
+          // amplitude: how high/low they go
+          // time: moves the wave
+          const yOffset = Math.sin(x * 0.01 + time + row * 0.1) * 10;
+          const y = baseY + yOffset;
+
+          // Simple culling
+          if (x < -10 || x > width + 10 || y < -10 || y > height + 10) continue;
+
+          ctx.beginPath();
+          // Slightly vary radius for effect? No, keep it simple "dotted"
+          ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
 
       animationFrameId = requestAnimationFrame(animate);
@@ -116,7 +71,6 @@ const BackgroundCanvas = () => {
 
     window.addEventListener('resize', resize);
     resize();
-    initNodes();
     animate();
 
     return () => {
@@ -188,7 +142,13 @@ const Navbar = () => {
             </a>
           </div>
 
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-slate-900 p-2 rounded-lg transition-colors active:scale-90 z-[60]">
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle mobile menu"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu-overlay"
+            className="md:hidden text-slate-900 p-2 rounded-lg transition-colors active:scale-90 z-[60]"
+          >
             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
@@ -197,6 +157,7 @@ const Navbar = () => {
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
         <div
+          id="mobile-menu-overlay"
           className="fixed inset-0 bg-white/95 backdrop-blur-xl z-[55] md:hidden animate-fade-in"
           onClick={() => setMobileMenuOpen(false)}
           style={{ touchAction: 'none' }}
@@ -352,16 +313,23 @@ const Solutions = () => {
                         <div key={index} className="bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl overflow-hidden hover:border-brand-300 hover:shadow-md transition-all duration-300">
                             <button
                                 onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
+                                aria-expanded={expandedIndex === index}
+                                aria-controls={`solution-content-${index}`}
                                 className="w-full flex items-center justify-between p-5 text-left hover:bg-slate-50/50 transition-all duration-300"
                             >
                                 <div className="flex items-center gap-3">
                                     <div className={`h-2.5 w-2.5 rounded-full transition-all duration-500 ${expandedIndex === index ? 'bg-brand-600 scale-125' : 'bg-slate-300'}`}></div>
-                                    <h3 className={`font-bold transition-colors duration-300 ${expandedIndex === index ? 'text-brand-600' : 'text-slate-900'}`}>{service.title}</h3>
+                                    <h3 id={`solution-heading-${index}`} className={`font-bold transition-colors duration-300 ${expandedIndex === index ? 'text-brand-600' : 'text-slate-900'}`}>{service.title}</h3>
                                 </div>
                                 <ChevronDown className={`h-5 w-5 text-slate-400 transition-all duration-500 ${expandedIndex === index ? 'rotate-180 text-brand-600' : ''}`} />
                             </button>
 
-                            <div className={`card-content ${expandedIndex === index ? 'expanded' : ''}`}>
+                            <div
+                                id={`solution-content-${index}`}
+                                role="region"
+                                aria-labelledby={`solution-heading-${index}`}
+                                className={`card-content ${expandedIndex === index ? 'expanded' : ''}`}
+                            >
                                 <div className="px-5 pb-5 pl-12">
                                     <ul className="space-y-2.5">
                                         {service.points.map((point, i) => (
@@ -400,13 +368,20 @@ const FAQ = () => {
                         <div key={i} className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-lg overflow-hidden">
                             <button
                                 onClick={() => setExpandedFAQ(expandedFAQ === i ? null : i)}
+                                aria-expanded={expandedFAQ === i}
+                                aria-controls={`faq-content-${i}`}
                                 className="w-full flex items-center justify-between p-4 text-left hover:bg-slate-50 transition-colors"
                             >
-                                <h3 className="font-bold text-slate-900">{item.q}</h3>
+                                <h3 id={`faq-heading-${i}`} className="font-bold text-slate-900">{item.q}</h3>
                                 <ChevronDown className={`h-5 w-5 text-slate-400 transition-transform flex-shrink-0 ${expandedFAQ === i ? 'rotate-180' : ''}`} />
                             </button>
                             {expandedFAQ === i && (
-                                <div className="px-4 pb-4">
+                                <div
+                                    id={`faq-content-${i}`}
+                                    role="region"
+                                    aria-labelledby={`faq-heading-${i}`}
+                                    className="px-4 pb-4"
+                                >
                                     <p className="text-slate-600 text-sm">{item.a}</p>
                                 </div>
                             )}
