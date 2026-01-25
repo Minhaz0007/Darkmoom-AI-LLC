@@ -8,7 +8,7 @@ import {
 
 // --- COMPONENTS ---
 
-import logo from './darkmoon-logo.png';
+import logo from './darkmoon-ai-logo-white.svg';
 
 const BackgroundCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -36,7 +36,7 @@ const BackgroundCanvas = () => {
       const rows = Math.ceil(height / gap);
       const cols = Math.ceil(width / gap);
 
-      ctx.fillStyle = 'rgba(148, 163, 184, 0.35)'; // Subtle slate
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.2)'; // Subtle Cyan Glow
 
       for (let row = 0; row <= rows; row++) {
         for (let col = 0; col <= cols; col++) {
@@ -54,7 +54,6 @@ const BackgroundCanvas = () => {
           if (x < -10 || x > width + 10 || y < -10 || y > height + 10) continue;
 
           ctx.beginPath();
-          // Slightly vary radius for effect? No, keep it simple "dotted"
           ctx.arc(x, y, 1.5, 0, Math.PI * 2);
           ctx.fill();
         }
@@ -113,25 +112,25 @@ const Navbar = () => {
             <div className="transform group-hover:scale-110 transition-transform duration-300">
                 <img src={logo} alt="Darkmoon AI Logo" className="h-10 w-auto object-contain" />
             </div>
-            <span className="font-display font-bold text-lg sm:text-xl tracking-tight text-slate-900">DARKMOON <span className="gradient-text">AI</span></span>
+            <span className="font-display font-bold text-lg sm:text-xl tracking-tight text-white">DARKMOON <span className="gradient-text">AI</span></span>
           </a>
 
           <div className="hidden md:flex items-center gap-6">
             {['Process', 'Solutions'].map((item) => (
-                <a key={item} href={`#${item.toLowerCase()}`} className="text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors">
+                <a key={item} href={`#${item.toLowerCase()}`} className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
                     {item}
                 </a>
             ))}
-            <button onClick={copyEmail} className="relative flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm border border-slate-200 rounded-lg hover:border-brand-600 transition-all group cursor-pointer">
-              <Mail className="h-4 w-4 text-brand-600" />
-              <span className="font-bold text-sm text-slate-900 group-hover:text-brand-600 transition-colors">contact@darkmoonai.com</span>
+            <button onClick={copyEmail} className="relative flex items-center gap-2 px-4 py-2 bg-slate-900/50 backdrop-blur-sm border border-slate-700 rounded-lg hover:border-brand-400 transition-all group cursor-pointer">
+              <Mail className="h-4 w-4 text-brand-400" />
+              <span className="font-bold text-sm text-slate-200 group-hover:text-brand-400 transition-colors">contact@darkmoonai.com</span>
               {emailCopied && (
-                <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-3 py-1 bg-slate-900 text-white text-xs rounded-lg shadow-lg whitespace-nowrap">
+                <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-3 py-1 bg-brand-600 text-white text-xs rounded-lg shadow-lg whitespace-nowrap">
                   Copied!
                 </span>
               )}
             </button>
-            <a href="#contact" className="relative px-6 py-2.5 bg-brand-600 text-white rounded-full text-sm font-semibold hover:bg-brand-700 transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg shadow-brand-600/30 animate-pulse">
+            <a href="#contact" className="relative px-6 py-2.5 bg-brand-600 text-white rounded-full text-sm font-semibold hover:bg-brand-500 transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(6,182,212,0.5)] animate-pulse">
               Contact Us
             </a>
           </div>
@@ -141,7 +140,7 @@ const Navbar = () => {
             aria-label="Toggle mobile menu"
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-menu-overlay"
-            className="md:hidden text-slate-900 p-2 rounded-lg transition-colors active:scale-90 z-[60]"
+            className="md:hidden text-slate-200 p-2 rounded-lg transition-colors active:scale-90 z-[60]"
           >
             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
@@ -152,7 +151,7 @@ const Navbar = () => {
       {mobileMenuOpen && (
         <div
           id="mobile-menu-overlay"
-          className="fixed inset-0 bg-white/95 backdrop-blur-xl z-[55] md:hidden animate-fade-in"
+          className="fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-[55] md:hidden animate-fade-in"
           onClick={() => setMobileMenuOpen(false)}
           style={{ touchAction: 'none' }}
         >
@@ -165,7 +164,7 @@ const Navbar = () => {
                 key={item}
                 href={`#${item.toLowerCase()}`}
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-3xl font-display font-bold text-slate-900 hover:text-brand-600 transition-all duration-300 hover:scale-110 active:scale-95"
+                className="text-3xl font-display font-bold text-slate-200 hover:text-brand-400 transition-all duration-300 hover:scale-110 active:scale-95"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 {item}
@@ -173,7 +172,7 @@ const Navbar = () => {
             ))}
             <button
               onClick={() => { copyEmail(); setMobileMenuOpen(false); }}
-              className="relative text-xl font-bold text-brand-600 hover:text-brand-700 transition-all duration-300 hover:scale-110 active:scale-95"
+              className="relative text-xl font-bold text-brand-400 hover:text-brand-300 transition-all duration-300 hover:scale-110 active:scale-95"
               style={{ animationDelay: '200ms' }}
             >
               contact@darkmoonai.com
@@ -199,27 +198,27 @@ const Navbar = () => {
 };
 
 const Hero = () => (
-  <section id="home" className="min-h-screen flex items-center py-20 px-4 sm:px-6 lg:px-8">
+  <section id="home" className="min-h-screen flex items-center py-20 px-4 sm:px-6 lg:px-8 relative z-10">
     <div className="max-w-5xl mx-auto w-full">
-      <div className="text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 border border-slate-200 shadow-sm mb-6">
-          <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span className="text-xs font-semibold text-slate-700">Accepting New Clients</span>
+      <div className="text-center animate-fade-up">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/50 border border-slate-700/50 shadow-sm mb-6 backdrop-blur-md">
+          <span className="flex h-2 w-2 rounded-full bg-brand-400 animate-pulse"></span>
+          <span className="text-xs font-semibold text-brand-100">Accepting New Clients</span>
         </div>
 
         <h1 className="font-display text-5xl sm:text-6xl md:text-8xl font-bold mb-6 leading-tight">
           <span className="gradient-text">Automate Your Manual Work</span>
         </h1>
 
-        <p className="text-lg sm:text-xl text-slate-600 mb-10 max-w-2xl mx-auto">
+        <p className="text-lg sm:text-xl text-slate-400 mb-10 max-w-2xl mx-auto">
           Custom automation that eliminates repetitive tasks and scales your business.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="#contact" className="px-8 py-4 bg-brand-600 text-white rounded-full font-semibold hover:bg-brand-700 transition-all hover:scale-105 active:scale-95 shadow-lg">
+          <a href="#contact" className="px-8 py-4 bg-brand-600 text-white rounded-full font-semibold hover:bg-brand-500 transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(2,132,199,0.5)]">
             Get Started
           </a>
-          <a href="#solutions" className="px-8 py-4 bg-white text-slate-700 border border-slate-300 rounded-full font-semibold hover:border-brand-600 hover:text-brand-600 transition-all">
+          <a href="#solutions" className="px-8 py-4 bg-slate-900/30 text-slate-300 border border-slate-700 rounded-full font-semibold hover:border-brand-400 hover:text-brand-400 transition-all backdrop-blur-sm">
             View Solutions
           </a>
         </div>
@@ -230,11 +229,11 @@ const Hero = () => (
 
 
 const Process = () => (
-  <section id="process" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-slate-50">
+  <section id="process" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
     <div className="max-w-7xl mx-auto">
-      <div className="text-center mb-16">
-        <h2 className="font-display text-4xl sm:text-5xl font-bold mb-4 text-slate-900">How We Work</h2>
-        <p className="text-slate-600 text-lg">Four simple steps to automation.</p>
+      <div className="text-center mb-16 reveal-on-scroll">
+        <h2 className="font-display text-4xl sm:text-5xl font-bold mb-4 text-white">How We Work</h2>
+        <p className="text-slate-400 text-lg">Four simple steps to automation.</p>
       </div>
 
       <div className="relative">
@@ -248,25 +247,25 @@ const Process = () => (
               { title: 'Build', desc: 'Develop and test solution', icon: '⚙️' },
               { title: 'Deploy', desc: 'Launch and train your team', icon: '🚀' }
           ].map((item, i) => (
-              <div key={i} className="relative group">
+              <div key={i} className="relative group reveal-on-scroll" style={{ transitionDelay: `${i * 100}ms` }}>
                 {/* Animated Arrow for mobile */}
                 {i < 3 && (
                   <div className="lg:hidden flex justify-center my-6">
-                    <ArrowRight className="h-8 w-8 text-brand-600 arrow-animate" />
+                    <ArrowRight className="h-8 w-8 text-brand-400 arrow-animate" />
                   </div>
                 )}
 
-                <div className="bg-white p-8 rounded-2xl border-2 border-slate-200 shadow-lg hover:shadow-2xl hover:border-brand-400 hover:-translate-y-3 transition-all duration-500 relative">
+                <div className="glass-card p-8 rounded-2xl hover:border-brand-400/50 hover:-translate-y-3 transition-all duration-500 relative">
                   {/* Continuously Animated Arrow between cards for desktop */}
                   {i < 3 && (
                     <div className="hidden lg:block absolute top-1/2 -right-10 transform -translate-y-1/2 z-10">
-                      <ArrowRight className="h-7 w-7 text-brand-600 arrow-animate drop-shadow-lg" />
+                      <ArrowRight className="h-7 w-7 text-brand-400 arrow-animate drop-shadow-lg" />
                     </div>
                   )}
 
-                  <div className="text-7xl mb-4 transform group-hover:scale-125 group-hover:rotate-12 transition-all duration-500">{item.icon}</div>
-                  <h3 className="text-2xl font-bold mb-3 text-slate-900 group-hover:text-brand-600 transition-colors duration-300">{item.title}</h3>
-                  <p className="text-slate-600 leading-relaxed">{item.desc}</p>
+                  <div className="text-7xl mb-4 transform group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">{item.icon}</div>
+                  <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-brand-400 transition-colors duration-300">{item.title}</h3>
+                  <p className="text-slate-400 leading-relaxed">{item.desc}</p>
                 </div>
               </div>
           ))}
@@ -297,25 +296,25 @@ const Solutions = () => {
     return (
         <section id="solutions" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
-                <div className="text-center mb-10">
-                    <h2 className="font-display text-3xl sm:text-4xl font-bold mb-3">What We Build</h2>
-                    <p className="text-slate-600">Click to expand details.</p>
+                <div className="text-center mb-10 reveal-on-scroll">
+                    <h2 className="font-display text-3xl sm:text-4xl font-bold mb-3 text-white">What We Build</h2>
+                    <p className="text-slate-400">Click to expand details.</p>
                 </div>
 
                 <div className="space-y-3">
                     {services.map((service, index) => (
-                        <div key={index} className="bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl overflow-hidden hover:border-brand-300 hover:shadow-md transition-all duration-300">
+                        <div key={index} className="glass-card rounded-xl overflow-hidden hover:border-brand-400/50 hover:shadow-[0_0_15px_rgba(2,132,199,0.2)] transition-all duration-300 reveal-on-scroll" style={{ transitionDelay: `${index * 50}ms` }}>
                             <button
                                 onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
                                 aria-expanded={expandedIndex === index}
                                 aria-controls={`solution-content-${index}`}
-                                className="w-full flex items-center justify-between p-5 text-left hover:bg-slate-50/50 transition-all duration-300"
+                                className="w-full flex items-center justify-between p-5 text-left hover:bg-slate-800/50 transition-all duration-300"
                             >
                                 <div className="flex items-center gap-3">
-                                    <div className={`h-2.5 w-2.5 rounded-full transition-all duration-500 ${expandedIndex === index ? 'bg-brand-600 scale-125' : 'bg-slate-300'}`}></div>
-                                    <h3 id={`solution-heading-${index}`} className={`font-bold transition-colors duration-300 ${expandedIndex === index ? 'text-brand-600' : 'text-slate-900'}`}>{service.title}</h3>
+                                    <div className={`h-2.5 w-2.5 rounded-full transition-all duration-500 ${expandedIndex === index ? 'bg-brand-400 scale-125 shadow-[0_0_10px_#38bdf8]' : 'bg-slate-600'}`}></div>
+                                    <h3 id={`solution-heading-${index}`} className={`font-bold transition-colors duration-300 ${expandedIndex === index ? 'text-brand-400' : 'text-slate-200'}`}>{service.title}</h3>
                                 </div>
-                                <ChevronDown className={`h-5 w-5 text-slate-400 transition-all duration-500 ${expandedIndex === index ? 'rotate-180 text-brand-600' : ''}`} />
+                                <ChevronDown className={`h-5 w-5 text-slate-500 transition-all duration-500 ${expandedIndex === index ? 'rotate-180 text-brand-400' : ''}`} />
                             </button>
 
                             <div
@@ -327,8 +326,8 @@ const Solutions = () => {
                                 <div className="px-5 pb-5 pl-12">
                                     <ul className="space-y-2.5">
                                         {service.points.map((point, i) => (
-                                            <li key={i} className="flex items-start gap-2.5 text-sm text-slate-600 transform transition-all duration-300" style={{ transitionDelay: `${i * 50}ms` }}>
-                                                <Check className="h-4 w-4 text-brand-600 mt-0.5 flex-shrink-0" />
+                                            <li key={i} className="flex items-start gap-2.5 text-sm text-slate-400 transform transition-all duration-300" style={{ transitionDelay: `${i * 50}ms` }}>
+                                                <Check className="h-4 w-4 text-brand-400 mt-0.5 flex-shrink-0" />
                                                 {point}
                                             </li>
                                         ))}
@@ -356,18 +355,18 @@ const FAQ = () => {
     return (
         <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto">
-                <h2 className="font-display text-3xl sm:text-4xl font-bold mb-8 text-center">FAQ</h2>
+                <h2 className="font-display text-3xl sm:text-4xl font-bold mb-8 text-center text-white reveal-on-scroll">FAQ</h2>
                 <div className="space-y-3">
                     {faqs.map((item, i) => (
-                        <div key={i} className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-lg overflow-hidden">
+                        <div key={i} className="glass-card rounded-lg overflow-hidden reveal-on-scroll" style={{ transitionDelay: `${i * 100}ms` }}>
                             <button
                                 onClick={() => setExpandedFAQ(expandedFAQ === i ? null : i)}
                                 aria-expanded={expandedFAQ === i}
                                 aria-controls={`faq-content-${i}`}
-                                className="w-full flex items-center justify-between p-4 text-left hover:bg-slate-50 transition-colors"
+                                className="w-full flex items-center justify-between p-4 text-left hover:bg-slate-800/50 transition-colors"
                             >
-                                <h3 id={`faq-heading-${i}`} className="font-bold text-slate-900">{item.q}</h3>
-                                <ChevronDown className={`h-5 w-5 text-slate-400 transition-transform flex-shrink-0 ${expandedFAQ === i ? 'rotate-180' : ''}`} />
+                                <h3 id={`faq-heading-${i}`} className="font-bold text-slate-200">{item.q}</h3>
+                                <ChevronDown className={`h-5 w-5 text-slate-500 transition-transform flex-shrink-0 ${expandedFAQ === i ? 'rotate-180 text-brand-400' : ''}`} />
                             </button>
                             {expandedFAQ === i && (
                                 <div
@@ -376,7 +375,7 @@ const FAQ = () => {
                                     aria-labelledby={`faq-heading-${i}`}
                                     className="px-4 pb-4"
                                 >
-                                    <p className="text-slate-600 text-sm">{item.a}</p>
+                                    <p className="text-slate-400 text-sm">{item.a}</p>
                                 </div>
                             )}
                         </div>
@@ -403,12 +402,12 @@ const Contact = () => {
     return (
         <section id="contact" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
             <div className="max-w-lg mx-auto">
-                <div className="text-center mb-8">
-                    <h2 className="font-display text-3xl sm:text-4xl font-bold mb-3 text-slate-900">Get Started</h2>
-                    <p className="text-slate-600">Response within 24 hours.</p>
+                <div className="text-center mb-8 reveal-on-scroll">
+                    <h2 className="font-display text-3xl sm:text-4xl font-bold mb-3 text-white">Get Started</h2>
+                    <p className="text-slate-400">Response within 24 hours.</p>
                 </div>
 
-                <form name="contact" method="POST" action="/#contact" data-netlify="true" data-netlify-honeypot="bot-field" className="space-y-4 bg-white/80 backdrop-blur-sm p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-lg">
+                <form name="contact" method="POST" action="/#contact" data-netlify="true" data-netlify-honeypot="bot-field" className="space-y-4 glass-card p-6 sm:p-8 rounded-2xl shadow-xl reveal-on-scroll delay-100">
                     <input type="hidden" name="form-name" value="contact" />
                     <p className="hidden">
                         <label>Don't fill this out if you're human: <input name="bot-field" /></label>
@@ -416,61 +415,61 @@ const Contact = () => {
 
                     <div className="grid sm:grid-cols-2 gap-4">
                         <div>
-                            <label className="text-sm font-semibold text-slate-700 mb-1 block">First Name</label>
+                            <label className="text-sm font-semibold text-slate-300 mb-1 block">First Name</label>
                             <input
                                 type="text"
                                 name="firstName"
                                 required
-                                className="w-full px-4 py-3 bg-white border border-slate-300 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition-all"
+                                className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:border-brand-400 focus:ring-2 focus:ring-brand-400/20 outline-none transition-all placeholder:text-slate-600"
                                 placeholder="Jane"
                             />
                         </div>
                         <div>
-                            <label className="text-sm font-semibold text-slate-700 mb-1 block">Last Name</label>
+                            <label className="text-sm font-semibold text-slate-300 mb-1 block">Last Name</label>
                             <input
                                 type="text"
                                 name="lastName"
                                 required
-                                className="w-full px-4 py-3 bg-white border border-slate-300 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition-all"
+                                className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:border-brand-400 focus:ring-2 focus:ring-brand-400/20 outline-none transition-all placeholder:text-slate-600"
                                 placeholder="Doe"
                             />
                         </div>
                     </div>
 
                     <div>
-                        <label className="text-sm font-semibold text-slate-700 mb-1 block">Email</label>
+                        <label className="text-sm font-semibold text-slate-300 mb-1 block">Email</label>
                         <input
                             type="email"
                             name="email"
                             required
-                            className="w-full px-4 py-3 bg-white border border-slate-300 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition-all"
+                            className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:border-brand-400 focus:ring-2 focus:ring-brand-400/20 outline-none transition-all placeholder:text-slate-600"
                             placeholder="jane@company.com"
                         />
                     </div>
 
                     <div>
-                        <label className="text-sm font-semibold text-slate-700 mb-1 block">What do you need?</label>
+                        <label className="text-sm font-semibold text-slate-300 mb-1 block">What do you need?</label>
                         <textarea
                             name="message"
                             rows={4}
                             required
-                            className="w-full px-4 py-3 bg-white border border-slate-300 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition-all resize-none"
+                            className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:border-brand-400 focus:ring-2 focus:ring-brand-400/20 outline-none transition-all resize-none placeholder:text-slate-600"
                             placeholder="Describe your automation needs..."
                         ></textarea>
                     </div>
 
-                    <button type="submit" className="w-full py-4 bg-brand-600 text-white rounded-lg font-bold hover:bg-brand-700 transition-all hover:scale-105 active:scale-95 shadow-lg">
+                    <button type="submit" className="w-full py-4 bg-brand-600 text-white rounded-lg font-bold hover:bg-brand-500 transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(2,132,199,0.4)]">
                         Send Message
                     </button>
                 </form>
 
-                <div className="text-center mt-6">
+                <div className="text-center mt-6 reveal-on-scroll delay-200">
                     <div className="relative inline-block">
-                        <button onClick={copyEmail} className="text-slate-500 text-sm hover:text-brand-600 transition-colors cursor-pointer">
+                        <button onClick={copyEmail} className="text-slate-500 text-sm hover:text-brand-400 transition-colors cursor-pointer">
                             contact@darkmoonai.com
                         </button>
                         {emailCopied && (
-                            <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-slate-900 text-white text-xs rounded-lg shadow-lg whitespace-nowrap">
+                            <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-brand-600 text-white text-xs rounded-lg shadow-lg whitespace-nowrap">
                                 Copied!
                             </span>
                         )}
@@ -482,9 +481,9 @@ const Contact = () => {
 };
 
 const Footer = () => (
-    <footer className="bg-white border-t border-slate-200 py-12 px-4">
+    <footer className="bg-slate-950 border-t border-slate-800 py-12 px-4 relative z-10">
         <div className="max-w-6xl mx-auto text-center">
-            <p className="text-slate-600 text-sm">
+            <p className="text-slate-500 text-sm">
                 © 2025 Darkmoon AI Solution LLC. All rights reserved.
             </p>
         </div>
