@@ -28,87 +28,42 @@ const BackgroundCanvas = () => {
     let width: number, height: number;
     let animationFrameId: number;
     let time = 0;
-    const nodes: Node[] = [];
-
-    const isMobile = window.innerWidth < 768;
-    const nodeCount = isMobile ? 40 : 80;
-    const connectionDist = isMobile ? 150 : 200;
-
-    class Node {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      radius: number;
-
-      constructor() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
-        this.radius = 2;
-      }
-
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        if (this.x < 0 || this.x > width) this.vx *= -1;
-        if (this.y < 0 || this.y > height) this.vy *= -1;
-
-        this.x = Math.max(0, Math.min(width, this.x));
-        this.y = Math.max(0, Math.min(height, this.y));
-      }
-
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(3, 105, 161, 0.6)';
-        ctx.fill();
-      }
-    }
 
     const resize = () => {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
     };
 
-    const initNodes = () => {
-      nodes.length = 0;
-      for (let i = 0; i < nodeCount; i++) {
-        nodes.push(new Node());
-      }
-    };
-
-    const drawConnections = () => {
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const dx = nodes[i].x - nodes[j].x;
-          const dy = nodes[i].y - nodes[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < connectionDist) {
-            const opacity = (1 - distance / connectionDist) * 0.3;
-            ctx.beginPath();
-            ctx.moveTo(nodes[i].x, nodes[i].y);
-            ctx.lineTo(nodes[j].x, nodes[j].y);
-            ctx.strokeStyle = `rgba(3, 105, 161, ${opacity})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        }
-      }
-    };
-
     const animate = () => {
-      time += 16;
+      time += 0.015;
       ctx.clearRect(0, 0, width, height);
 
-      drawConnections();
+      const gap = 30;
+      const rows = Math.ceil(height / gap);
+      const cols = Math.ceil(width / gap);
 
-      for (let i = 0; i < nodes.length; i++) {
-        nodes[i].update();
-        nodes[i].draw();
+      ctx.fillStyle = 'rgba(148, 163, 184, 0.35)'; // Subtle slate
+
+      for (let row = 0; row <= rows; row++) {
+        for (let col = 0; col <= cols; col++) {
+          const x = col * gap;
+          const baseY = row * gap;
+
+          // Wave calculation
+          // frequency: determines how tight the waves are
+          // amplitude: how high/low they go
+          // time: moves the wave
+          const yOffset = Math.sin(x * 0.01 + time + row * 0.1) * 10;
+          const y = baseY + yOffset;
+
+          // Simple culling
+          if (x < -10 || x > width + 10 || y < -10 || y > height + 10) continue;
+
+          ctx.beginPath();
+          // Slightly vary radius for effect? No, keep it simple "dotted"
+          ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
 
       animationFrameId = requestAnimationFrame(animate);
@@ -116,7 +71,6 @@ const BackgroundCanvas = () => {
 
     window.addEventListener('resize', resize);
     resize();
-    initNodes();
     animate();
 
     return () => {
