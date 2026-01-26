@@ -39,6 +39,8 @@
                     animation: {
                         'fade-up': 'fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                         'float-slow': 'float 8s ease-in-out infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'spin-slow': 'spin 20s linear infinite',
                         'fade-in': 'fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                         'slide-down': 'slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                     },
@@ -101,6 +103,25 @@
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(51, 65, 85, 0.5);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .orbital-container {
+            position: relative;
+            min-height: 700px;
+        }
+        .glow-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 3s ease-in-out forwards;
+        }
+        @keyframes dash {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        .dot-pattern {
+            background-image: radial-gradient(circle, currentColor 1px, transparent 1px);
+            background-size: 24px 24px;
         }
         
         /* High-performance scroll reveal */

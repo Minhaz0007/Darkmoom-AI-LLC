@@ -3,7 +3,8 @@ import { createRoot } from 'react-dom/client';
 import { 
   Rocket, Mail, Database, Package, FileEdit, BarChart3, 
   CloudCog, Smartphone, Monitor, Layers, Palette, GitMerge,
-  ChevronDown, ChevronUp, Check, X, Menu, ArrowRight
+  ChevronDown, ChevronUp, Check, X, Menu, ArrowRight,
+  Search, PenTool, Settings, Cpu
 } from 'lucide-react';
 
 // --- COMPONENTS ---
@@ -229,49 +230,166 @@ const Hero = () => (
 
 
 const Process = () => (
-  <section id="process" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
-    <div className="max-w-7xl mx-auto">
-      <div className="text-center mb-16 reveal-on-scroll">
-        <h2 className="font-display text-4xl sm:text-5xl font-bold mb-4 text-white">How We Work</h2>
-        <p className="text-slate-400 text-lg">Four simple steps to automation.</p>
-      </div>
+  <section id="process" className="relative min-h-screen py-20 px-4 flex flex-col items-center justify-center overflow-hidden">
+     {/* Background elements */}
+     <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="dot-pattern absolute inset-0 opacity-[0.05] text-slate-400"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-500/10 rounded-full blur-[120px]"></div>
+     </div>
 
-      <div className="relative">
-        {/* Animated Connection Line */}
-        <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-1 process-line transform -translate-y-1/2 rounded-full" style={{ zIndex: 0 }}></div>
+     {/* Title Section */}
+     <div className="relative z-10 text-center mb-16 space-y-4">
+         <span className="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase bg-brand-500/10 text-brand-400 border border-brand-500/20">
+            Our Methodology
+         </span>
+         <h1 className="text-4xl md:text-6xl font-extrabold font-display tracking-tight text-white">
+            How <span className="text-brand-400">We Work</span>
+         </h1>
+         <p className="text-lg text-slate-400 max-w-xl mx-auto">
+            Four simple steps to transform your operational efficiency through strategic automation.
+         </p>
+     </div>
 
-        <div className="grid lg:grid-cols-4 gap-8 lg:gap-4 relative" style={{ zIndex: 1 }}>
-          {[
-              { title: 'Audit', desc: 'Analyze your workflows', icon: '🔍' },
-              { title: 'Design', desc: 'Create automation blueprint', icon: '📐' },
-              { title: 'Build', desc: 'Develop and test solution', icon: '⚙️' },
-              { title: 'Deploy', desc: 'Launch and train your team', icon: '🚀' }
-          ].map((item, i) => (
-              <div key={i} className="relative group reveal-on-scroll" style={{ transitionDelay: `${i * 100}ms` }}>
-                {/* Animated Arrow for mobile */}
-                {i < 3 && (
-                  <div className="lg:hidden flex justify-center my-6">
-                    <ArrowRight className="h-8 w-8 text-brand-400 arrow-animate" />
-                  </div>
-                )}
+     {/* Orbital Container */}
+     <div className="relative z-10 w-full max-w-5xl mx-auto orbital-container flex items-center justify-center hidden md:flex">
+         <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1000 700">
+             <defs>
+                 <linearGradient id="lineGradient" x1="0%" x2="100%" y1="0%" y2="100%">
+                     <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.8"></stop>
+                     <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.2"></stop>
+                 </linearGradient>
+                 <filter id="glow">
+                     <feGaussianBlur result="coloredBlur" stdDeviation="3"></feGaussianBlur>
+                     <feMerge>
+                         <feMergeNode in="coloredBlur"></feMergeNode>
+                         <feMergeNode in="SourceGraphic"></feMergeNode>
+                     </feMerge>
+                 </filter>
+             </defs>
+             {/* Lines */}
+             <line className="glow-line opacity-30" filter="url(#glow)" stroke="url(#lineGradient)" strokeWidth="1.5" x1="500" x2="250" y1="350" y2="150"></line>
+             <line className="glow-line opacity-30" filter="url(#glow)" stroke="url(#lineGradient)" strokeWidth="1.5" x1="500" x2="750" y1="350" y2="150"></line>
+             <line className="glow-line opacity-30" filter="url(#glow)" stroke="url(#lineGradient)" strokeWidth="1.5" x1="500" x2="250" y1="350" y2="550"></line>
+             <line className="glow-line opacity-30" filter="url(#glow)" stroke="url(#lineGradient)" strokeWidth="1.5" x1="500" x2="750" y1="350" y2="550"></line>
+             {/* Circles */}
+             <circle className="opacity-10" cx="500" cy="350" fill="none" r="180" stroke="currentColor" strokeWidth="1"></circle>
+             <circle className="opacity-10" cx="500" cy="350" fill="none" r="280" stroke="currentColor" strokeWidth="1"></circle>
+         </svg>
 
-                <div className="glass-card p-8 rounded-2xl hover:border-brand-400/50 hover:-translate-y-3 transition-all duration-500 relative">
-                  {/* Continuously Animated Arrow between cards for desktop */}
-                  {i < 3 && (
-                    <div className="hidden lg:block absolute top-1/2 -right-10 transform -translate-y-1/2 z-10">
-                      <ArrowRight className="h-7 w-7 text-brand-400 arrow-animate drop-shadow-lg" />
-                    </div>
-                  )}
+         {/* Central Hub */}
+         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 group">
+             <div className="relative w-40 h-40 md:w-56 md:h-56 rounded-full glass-card flex items-center justify-center shadow-2xl border-brand-400/30">
+                 <div className="absolute inset-2 border border-dashed border-brand-400/40 rounded-full animate-spin-slow"></div>
+                 <div className="text-center p-6">
+                     <div className="w-16 h-16 bg-brand-500 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg shadow-brand-500/40">
+                         <Cpu className="text-white h-8 w-8" />
+                     </div>
+                     <h3 className="font-bold font-display text-lg text-white uppercase tracking-tighter">Automation</h3>
+                     <p className="text-[10px] text-brand-400 font-bold uppercase tracking-widest mt-1">Central Hub</p>
+                 </div>
+             </div>
+         </div>
 
-                  <div className="text-7xl mb-4 transform group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">{item.icon}</div>
-                  <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-brand-400 transition-colors duration-300">{item.title}</h3>
-                  <p className="text-slate-400 leading-relaxed">{item.desc}</p>
+         {/* Orbital Nodes */}
+         {/* Step 1: Audit (Top Left) */}
+         <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 z-30 group animate-float" style={{ animationDelay: '0s' }}>
+             <div className="glass-card p-6 rounded-3xl w-64 shadow-xl hover:border-brand-400/50 transition-all duration-500 hover:-translate-y-2">
+                 <div className="flex items-start gap-4">
+                     <div className="relative">
+                         <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform">
+                             <Search className="text-brand-400 h-6 w-6" />
+                         </div>
+                         <div className="absolute -bottom-1 -right-1 w-12 h-12 bg-brand-500/20 rounded-xl -z-10"></div>
+                     </div>
+                     <div>
+                         <div className="text-[10px] font-bold text-brand-400 mb-1">STEP 01</div>
+                         <h4 className="font-bold text-xl text-white mb-2">Audit</h4>
+                         <p className="text-sm text-slate-400">Deep-dive analysis of existing workflows.</p>
+                     </div>
+                 </div>
+             </div>
+         </div>
+         {/* Step 2: Design (Top Right) */}
+         <div className="absolute top-1/4 right-1/4 translate-x-1/2 -translate-y-1/2 z-30 group animate-float" style={{ animationDelay: '1.5s' }}>
+             <div className="glass-card p-6 rounded-3xl w-64 shadow-xl hover:border-brand-400/50 transition-all duration-500 hover:-translate-y-2">
+                 <div className="flex items-start gap-4">
+                     <div className="relative">
+                         <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform">
+                             <PenTool className="text-brand-400 h-6 w-6" />
+                         </div>
+                         <div className="absolute -bottom-1 -right-1 w-12 h-12 bg-brand-500/20 rounded-xl -z-10"></div>
+                     </div>
+                     <div>
+                         <div className="text-[10px] font-bold text-brand-400 mb-1">STEP 02</div>
+                         <h4 className="font-bold text-xl text-white mb-2">Design</h4>
+                         <p className="text-sm text-slate-400">Architecting the automation blueprint.</p>
+                     </div>
+                 </div>
+             </div>
+         </div>
+         {/* Step 3: Build (Bottom Left) */}
+         <div className="absolute bottom-1/4 left-1/4 -translate-x-1/2 translate-y-1/2 z-30 group animate-float" style={{ animationDelay: '3s' }}>
+             <div className="glass-card p-6 rounded-3xl w-64 shadow-xl hover:border-brand-400/50 transition-all duration-500 hover:-translate-y-2">
+                 <div className="flex items-start gap-4">
+                     <div className="relative">
+                         <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform">
+                             <Settings className="text-brand-400 h-6 w-6" />
+                         </div>
+                         <div className="absolute -bottom-1 -right-1 w-12 h-12 bg-brand-500/20 rounded-xl -z-10"></div>
+                     </div>
+                     <div>
+                         <div className="text-[10px] font-bold text-brand-400 mb-1">STEP 03</div>
+                         <h4 className="font-bold text-xl text-white mb-2">Build</h4>
+                         <p className="text-sm text-slate-400">Agile development and rigorous testing.</p>
+                     </div>
+                 </div>
+             </div>
+         </div>
+         {/* Step 4: Deploy (Bottom Right) */}
+         <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 z-30 group animate-float" style={{ animationDelay: '4.5s' }}>
+             <div className="glass-card p-6 rounded-3xl w-64 shadow-xl hover:border-brand-400/50 transition-all duration-500 hover:-translate-y-2">
+                 <div className="flex items-start gap-4">
+                     <div className="relative">
+                         <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform">
+                             <Rocket className="text-brand-400 h-6 w-6" />
+                         </div>
+                         <div className="absolute -bottom-1 -right-1 w-12 h-12 bg-brand-500/20 rounded-xl -z-10"></div>
+                     </div>
+                     <div>
+                         <div className="text-[10px] font-bold text-brand-400 mb-1">STEP 04</div>
+                         <h4 className="font-bold text-xl text-white mb-2">Deploy</h4>
+                         <p className="text-sm text-slate-400">Launching and empowering your team.</p>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+     {/* Mobile View (Grid) */}
+     <div className="md:hidden grid grid-cols-1 gap-6 w-full mt-10 z-10">
+        {[
+            { step: 'Audit', desc: 'Analyze your workflows', icon: Search },
+            { step: 'Design', desc: 'Create automation blueprint', icon: PenTool },
+            { step: 'Build', desc: 'Develop and test solution', icon: Settings },
+            { step: 'Deploy', desc: 'Launch and train your team', icon: Rocket }
+        ].map((item, i) => (
+            <div key={i} className="glass-card p-6 rounded-2xl flex items-center gap-4">
+                <div className="w-12 h-12 bg-brand-500/10 rounded-lg flex items-center justify-center">
+                    <item.icon className="text-brand-400 h-6 w-6" />
                 </div>
-              </div>
-          ))}
-        </div>
-      </div>
-    </div>
+                <div>
+                    <h4 className="font-bold text-white">{item.step}</h4>
+                    <p className="text-xs text-slate-400">{item.desc}</p>
+                </div>
+            </div>
+        ))}
+     </div>
+
+     <div className="mt-24 z-10 text-center">
+        <button className="bg-brand-600 hover:bg-brand-500 text-white font-bold py-4 px-10 rounded-full shadow-2xl shadow-brand-500/30 transition-all hover:scale-105 active:scale-95 flex items-center gap-2 mx-auto">
+            Start Your Process <ArrowRight className="text-sm h-5 w-5" />
+        </button>
+     </div>
   </section>
 );
 
