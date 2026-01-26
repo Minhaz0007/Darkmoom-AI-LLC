@@ -76,6 +76,77 @@ const BackgroundCanvas = () => {
   return <canvas ref={canvasRef} id="bg-canvas" />;
 };
 
+// Section-specific wave background for Process section
+const ProcessBackgroundCanvas = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let width: number, height: number;
+    let animationFrameId: number;
+    let time = 0;
+
+    const resize = () => {
+      const rect = container.getBoundingClientRect();
+      width = canvas.width = rect.width;
+      height = canvas.height = rect.height;
+    };
+
+    const animate = () => {
+      time += 0.012;
+      ctx.clearRect(0, 0, width, height);
+
+      const gap = 35;
+      const rows = Math.ceil(height / gap);
+      const cols = Math.ceil(width / gap);
+
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.15)';
+
+      for (let row = 0; row <= rows; row++) {
+        for (let col = 0; col <= cols; col++) {
+          const x = col * gap;
+          const baseY = row * gap;
+
+          // Wave calculation with multiple sine waves for more organic movement
+          const yOffset = Math.sin(x * 0.008 + time + row * 0.15) * 12 +
+                          Math.sin(x * 0.012 - time * 0.5 + row * 0.08) * 6;
+          const y = baseY + yOffset;
+
+          if (x < -10 || x > width + 10 || y < -10 || y > height + 10) continue;
+
+          ctx.beginPath();
+          ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    window.addEventListener('resize', resize);
+    resize();
+    animate();
+
+    return () => {
+      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return (
+    <div ref={containerRef} className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-500/10 rounded-full blur-[120px]"></div>
+    </div>
+  );
+};
+
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -231,11 +302,8 @@ const Hero = () => (
 
 const Process = () => (
   <section id="process" className="relative min-h-screen py-20 px-4 flex flex-col items-center justify-center overflow-hidden">
-     {/* Background elements */}
-     <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="dot-pattern absolute inset-0 opacity-[0.05] text-slate-400"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-500/10 rounded-full blur-[120px]"></div>
-     </div>
+     {/* Animated dotted wave background */}
+     <ProcessBackgroundCanvas />
 
      {/* Title Section */}
      <div className="relative z-10 text-center mb-16 space-y-4">
