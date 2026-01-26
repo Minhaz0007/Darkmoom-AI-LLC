@@ -9,7 +9,7 @@ import {
 
 // --- COMPONENTS ---
 
-import logo from './darkmoon-ai-logo-white.svg';
+import logo from './darkmoon-brand-logo.png';
 
 const BackgroundCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
