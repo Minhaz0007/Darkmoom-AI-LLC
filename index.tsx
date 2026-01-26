@@ -11,7 +11,12 @@ import {
 
 import logo from './darkmoon-ai-logo-white.svg';
 
-const BackgroundCanvas = () => {
+interface BackgroundCanvasProps {
+  className?: string;
+  id?: string;
+}
+
+const BackgroundCanvas = ({ className = "fixed inset-0 z-[-1] pointer-events-none", id = "bg-canvas" }: BackgroundCanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -25,8 +30,8 @@ const BackgroundCanvas = () => {
     let time = 0;
 
     const resize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+      width = canvas.width = canvas.offsetWidth;
+      height = canvas.height = canvas.offsetHeight;
     };
 
     const animate = () => {
@@ -73,7 +78,7 @@ const BackgroundCanvas = () => {
     };
   }, []);
 
-  return <canvas ref={canvasRef} id="bg-canvas" />;
+  return <canvas ref={canvasRef} id={id} className={className} />;
 };
 
 const Navbar = () => {
@@ -230,10 +235,10 @@ const Hero = () => (
 
 
 const Process = () => (
-  <section id="process" className="relative min-h-screen py-20 px-4 flex flex-col items-center justify-center overflow-hidden">
+  <section id="process" className="relative min-h-screen py-20 px-4 flex flex-col items-center justify-center overflow-hidden bg-slate-950">
      {/* Background elements */}
      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="dot-pattern absolute inset-0 opacity-[0.05] text-slate-400"></div>
+        <BackgroundCanvas className="absolute inset-0 opacity-100" id="process-bg" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-500/10 rounded-full blur-[120px]"></div>
      </div>
 
