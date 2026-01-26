@@ -7,7 +7,7 @@
     <meta name="description" content="Custom AI automation workflows that eliminate busywork.">
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -30,11 +30,18 @@
                             850: '#1e293b',
                             900: '#0f172a',
                             950: '#020617', // Deepest dark
-                        }
+                        },
+                        primary: '#38bdf8',
+                        'background-dark': '#020617',
+                        'surface-dark': '#0f172a',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                         display: ['Plus Jakarta Sans', 'sans-serif'],
+                        grotesk: ['Space Grotesk', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        neon: '0 0 20px rgba(56, 189, 248, 0.5)',
                     },
                     animation: {
                         'fade-up': 'fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
@@ -103,6 +110,20 @@
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(51, 65, 85, 0.5);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, #38bdf8, transparent);
+            transform: translateX(-50%);
         }
 
         .orbital-container {
