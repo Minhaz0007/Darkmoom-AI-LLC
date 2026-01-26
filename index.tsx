@@ -230,10 +230,10 @@ const Hero = () => (
 
 
 const Process = () => (
-  <section id="process" className="relative py-24 md:py-32 overflow-hidden">
+  <section id="process" className="relative py-16 md:py-32 overflow-hidden">
     {/* Section Header */}
     <div className="container mx-auto px-4 sm:px-6">
-      <div className="max-w-3xl mx-auto text-center mb-20 md:mb-32 reveal-on-scroll">
+      <div className="max-w-3xl mx-auto text-center mb-16 md:mb-32 reveal-on-scroll">
         <span className="inline-block py-1 px-3 rounded-full bg-brand-500/10 text-brand-400 text-xs font-bold tracking-wider uppercase mb-4 border border-brand-500/20">
           Our Process
         </span>
@@ -251,7 +251,7 @@ const Process = () => (
         <div className="absolute left-1/2 top-0 bottom-0 w-[2px] -ml-[1px] timeline-line hidden md:block"></div>
 
         {/* Step 01: The Audit */}
-        <div className="relative flex flex-col md:flex-row items-center justify-between mb-24 md:mb-32 group reveal-on-scroll">
+        <div className="relative flex flex-col md:flex-row items-center justify-between mb-16 md:mb-32 group reveal-on-scroll">
           {/* Icon Left */}
           <div className="w-full md:w-5/12 flex justify-center md:justify-end md:pr-12 lg:pr-16 mb-8 md:mb-0 order-1 md:order-1">
             <div className="relative w-full max-w-sm aspect-square glass-card rounded-2xl p-2 group-hover:-translate-y-2 transition-transform duration-500">
@@ -310,7 +310,7 @@ const Process = () => (
         </div>
 
         {/* Step 02: The Design */}
-        <div className="relative flex flex-col md:flex-row items-center justify-between mb-24 md:mb-32 group reveal-on-scroll">
+        <div className="relative flex flex-col md:flex-row items-center justify-between mb-16 md:mb-32 group reveal-on-scroll">
           {/* Text Left */}
           <div className="w-full md:w-5/12 md:pr-12 lg:pr-16 order-2 md:order-1 text-center md:text-right">
             <div className="inline-flex items-center gap-3 mb-4 md:flex-row-reverse">
@@ -373,7 +373,7 @@ const Process = () => (
         </div>
 
         {/* Step 03: The Build */}
-        <div className="relative flex flex-col md:flex-row items-center justify-between mb-24 md:mb-32 group reveal-on-scroll">
+        <div className="relative flex flex-col md:flex-row items-center justify-between mb-16 md:mb-32 group reveal-on-scroll">
           {/* Icon Left */}
           <div className="w-full md:w-5/12 flex justify-center md:justify-end md:pr-12 lg:pr-16 mb-8 md:mb-0 order-1 md:order-1">
             <div className="relative w-full max-w-sm aspect-square glass-card rounded-2xl p-2 group-hover:-translate-y-2 transition-transform duration-500">
