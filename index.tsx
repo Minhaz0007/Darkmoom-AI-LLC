@@ -230,166 +230,262 @@ const Hero = () => (
 
 
 const Process = () => (
-  <section id="process" className="relative min-h-screen py-20 px-4 flex flex-col items-center justify-center overflow-hidden">
-     {/* Background elements */}
-     <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="dot-pattern absolute inset-0 opacity-[0.05] text-slate-400"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-500/10 rounded-full blur-[120px]"></div>
-     </div>
+  <section id="process" className="relative py-24 md:py-32 overflow-hidden">
+    {/* Section Header */}
+    <div className="container mx-auto px-4 sm:px-6">
+      <div className="max-w-3xl mx-auto text-center mb-20 md:mb-32 reveal-on-scroll">
+        <span className="inline-block py-1 px-3 rounded-full bg-brand-500/10 text-brand-400 text-xs font-bold tracking-wider uppercase mb-4 border border-brand-500/20">
+          Our Process
+        </span>
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight font-display">
+          How We <span className="text-brand-400">Automate Success</span>
+        </h2>
+        <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+          We transform complex workflows into seamless automated systems through a rigorous, proven four-step methodology.
+        </p>
+      </div>
 
-     {/* Title Section */}
-     <div className="relative z-10 text-center mb-16 space-y-4">
-         <span className="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase bg-brand-500/10 text-brand-400 border border-brand-500/20">
-            Our Methodology
-         </span>
-         <h1 className="text-4xl md:text-6xl font-extrabold font-display tracking-tight text-white">
-            How <span className="text-brand-400">We Work</span>
-         </h1>
-         <p className="text-lg text-slate-400 max-w-xl mx-auto">
-            Four simple steps to transform your operational efficiency through strategic automation.
-         </p>
-     </div>
+      {/* Process Timeline Container */}
+      <div className="relative max-w-6xl mx-auto">
+        {/* Center Pulse Line (Visible on Desktop) */}
+        <div className="absolute left-1/2 top-0 bottom-0 w-[2px] -ml-[1px] timeline-line hidden md:block"></div>
 
-     {/* Orbital Container */}
-     <div className="relative z-10 w-full max-w-5xl mx-auto orbital-container flex items-center justify-center hidden md:flex">
-         <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1000 700">
-             <defs>
-                 <linearGradient id="lineGradient" x1="0%" x2="100%" y1="0%" y2="100%">
-                     <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.8"></stop>
-                     <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.2"></stop>
-                 </linearGradient>
-                 <filter id="glow">
-                     <feGaussianBlur result="coloredBlur" stdDeviation="3"></feGaussianBlur>
-                     <feMerge>
-                         <feMergeNode in="coloredBlur"></feMergeNode>
-                         <feMergeNode in="SourceGraphic"></feMergeNode>
-                     </feMerge>
-                 </filter>
-             </defs>
-             {/* Lines */}
-             <line className="glow-line opacity-30" filter="url(#glow)" stroke="url(#lineGradient)" strokeWidth="1.5" x1="500" x2="250" y1="350" y2="150"></line>
-             <line className="glow-line opacity-30" filter="url(#glow)" stroke="url(#lineGradient)" strokeWidth="1.5" x1="500" x2="750" y1="350" y2="150"></line>
-             <line className="glow-line opacity-30" filter="url(#glow)" stroke="url(#lineGradient)" strokeWidth="1.5" x1="500" x2="250" y1="350" y2="550"></line>
-             <line className="glow-line opacity-30" filter="url(#glow)" stroke="url(#lineGradient)" strokeWidth="1.5" x1="500" x2="750" y1="350" y2="550"></line>
-             {/* Circles */}
-             <circle className="opacity-10" cx="500" cy="350" fill="none" r="180" stroke="currentColor" strokeWidth="1"></circle>
-             <circle className="opacity-10" cx="500" cy="350" fill="none" r="280" stroke="currentColor" strokeWidth="1"></circle>
-         </svg>
-
-         {/* Central Hub */}
-         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 group">
-             <div className="relative w-40 h-40 md:w-56 md:h-56 rounded-full glass-card flex items-center justify-center shadow-2xl border-brand-400/30">
-                 <div className="absolute inset-2 border border-dashed border-brand-400/40 rounded-full animate-spin-slow"></div>
-                 <div className="text-center p-6">
-                     <div className="w-16 h-16 bg-brand-500 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg shadow-brand-500/40">
-                         <Cpu className="text-white h-8 w-8" />
-                     </div>
-                     <h3 className="font-bold font-display text-lg text-white uppercase tracking-tighter">Automation</h3>
-                     <p className="text-[10px] text-brand-400 font-bold uppercase tracking-widest mt-1">Central Hub</p>
-                 </div>
-             </div>
-         </div>
-
-         {/* Orbital Nodes */}
-         {/* Step 1: Audit (Top Left) */}
-         <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 z-30 group animate-float" style={{ animationDelay: '0s' }}>
-             <div className="glass-card p-6 rounded-3xl w-64 shadow-xl hover:border-brand-400/50 transition-all duration-500 hover:-translate-y-2">
-                 <div className="flex items-start gap-4">
-                     <div className="relative">
-                         <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform">
-                             <Search className="text-brand-400 h-6 w-6" />
-                         </div>
-                         <div className="absolute -bottom-1 -right-1 w-12 h-12 bg-brand-500/20 rounded-xl -z-10"></div>
-                     </div>
-                     <div>
-                         <div className="text-[10px] font-bold text-brand-400 mb-1">STEP 01</div>
-                         <h4 className="font-bold text-xl text-white mb-2">Audit</h4>
-                         <p className="text-sm text-slate-400">Deep-dive analysis of existing workflows.</p>
-                     </div>
-                 </div>
-             </div>
-         </div>
-         {/* Step 2: Design (Top Right) */}
-         <div className="absolute top-1/4 right-1/4 translate-x-1/2 -translate-y-1/2 z-30 group animate-float" style={{ animationDelay: '1.5s' }}>
-             <div className="glass-card p-6 rounded-3xl w-64 shadow-xl hover:border-brand-400/50 transition-all duration-500 hover:-translate-y-2">
-                 <div className="flex items-start gap-4">
-                     <div className="relative">
-                         <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform">
-                             <PenTool className="text-brand-400 h-6 w-6" />
-                         </div>
-                         <div className="absolute -bottom-1 -right-1 w-12 h-12 bg-brand-500/20 rounded-xl -z-10"></div>
-                     </div>
-                     <div>
-                         <div className="text-[10px] font-bold text-brand-400 mb-1">STEP 02</div>
-                         <h4 className="font-bold text-xl text-white mb-2">Design</h4>
-                         <p className="text-sm text-slate-400">Architecting the automation blueprint.</p>
-                     </div>
-                 </div>
-             </div>
-         </div>
-         {/* Step 3: Build (Bottom Left) */}
-         <div className="absolute bottom-1/4 left-1/4 -translate-x-1/2 translate-y-1/2 z-30 group animate-float" style={{ animationDelay: '3s' }}>
-             <div className="glass-card p-6 rounded-3xl w-64 shadow-xl hover:border-brand-400/50 transition-all duration-500 hover:-translate-y-2">
-                 <div className="flex items-start gap-4">
-                     <div className="relative">
-                         <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform">
-                             <Settings className="text-brand-400 h-6 w-6" />
-                         </div>
-                         <div className="absolute -bottom-1 -right-1 w-12 h-12 bg-brand-500/20 rounded-xl -z-10"></div>
-                     </div>
-                     <div>
-                         <div className="text-[10px] font-bold text-brand-400 mb-1">STEP 03</div>
-                         <h4 className="font-bold text-xl text-white mb-2">Build</h4>
-                         <p className="text-sm text-slate-400">Agile development and rigorous testing.</p>
-                     </div>
-                 </div>
-             </div>
-         </div>
-         {/* Step 4: Deploy (Bottom Right) */}
-         <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 z-30 group animate-float" style={{ animationDelay: '4.5s' }}>
-             <div className="glass-card p-6 rounded-3xl w-64 shadow-xl hover:border-brand-400/50 transition-all duration-500 hover:-translate-y-2">
-                 <div className="flex items-start gap-4">
-                     <div className="relative">
-                         <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform">
-                             <Rocket className="text-brand-400 h-6 w-6" />
-                         </div>
-                         <div className="absolute -bottom-1 -right-1 w-12 h-12 bg-brand-500/20 rounded-xl -z-10"></div>
-                     </div>
-                     <div>
-                         <div className="text-[10px] font-bold text-brand-400 mb-1">STEP 04</div>
-                         <h4 className="font-bold text-xl text-white mb-2">Deploy</h4>
-                         <p className="text-sm text-slate-400">Launching and empowering your team.</p>
-                     </div>
-                 </div>
-             </div>
-         </div>
-     </div>
-
-     {/* Mobile View (Grid) */}
-     <div className="md:hidden grid grid-cols-1 gap-6 w-full mt-10 z-10">
-        {[
-            { step: 'Audit', desc: 'Analyze your workflows', icon: Search },
-            { step: 'Design', desc: 'Create automation blueprint', icon: PenTool },
-            { step: 'Build', desc: 'Develop and test solution', icon: Settings },
-            { step: 'Deploy', desc: 'Launch and train your team', icon: Rocket }
-        ].map((item, i) => (
-            <div key={i} className="glass-card p-6 rounded-2xl flex items-center gap-4">
-                <div className="w-12 h-12 bg-brand-500/10 rounded-lg flex items-center justify-center">
-                    <item.icon className="text-brand-400 h-6 w-6" />
+        {/* Step 01: The Audit */}
+        <div className="relative flex flex-col md:flex-row items-center justify-between mb-24 md:mb-32 group reveal-on-scroll">
+          {/* Icon Left */}
+          <div className="w-full md:w-5/12 flex justify-center md:justify-end md:pr-12 lg:pr-16 mb-8 md:mb-0 order-1 md:order-1">
+            <div className="relative w-full max-w-sm aspect-square glass-card rounded-2xl p-2 group-hover:-translate-y-2 transition-transform duration-500">
+              <div className="absolute inset-0 bg-brand-500/10 blur-2xl -z-10 rounded-full"></div>
+              <div className="w-full h-full bg-slate-900/50 rounded-xl overflow-hidden relative">
+                <div
+                  className="w-full h-full bg-cover bg-center opacity-80"
+                  style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuCA4FtjmCFTHXSGcSMvzfTAFOUZ2PiEumxnF4dmGTQZ3I-QscC9-ngwGIodCGqZ8u_sWnicKei1bUKWHmDqMbSLF_FTGp63TO2vFMnNOyWUVkBmv7GjbtyOdS-f-7-XHYysGBVKCbA_LKpt3OPPTfvWkd_PjqDnHFMAP2QeKMVSOHnBFDeUpOIMNQO3_LjjvXb8zei8XTgPFLUVvISne2p-1VijzuwbafmVlRNMdudpXODPwrcATYJ8PhROmCkFlXGKaY_uW5_Bv11F')" }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+                {/* Decorative UI Element overlay */}
+                <div className="absolute bottom-6 left-6 right-6">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-8 h-8 rounded-full bg-brand-500/20 flex items-center justify-center text-brand-400">
+                      <BarChart3 className="h-4 w-4" />
+                    </div>
+                    <span className="text-white font-medium text-sm">System Analysis</span>
+                  </div>
+                  <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                    <div className="h-full bg-brand-400 w-3/4"></div>
+                  </div>
                 </div>
-                <div>
-                    <h4 className="font-bold text-white">{item.step}</h4>
-                    <p className="text-xs text-slate-400">{item.desc}</p>
-                </div>
+              </div>
             </div>
-        ))}
-     </div>
+          </div>
 
-     <div className="mt-24 z-10 text-center">
-        <button className="bg-brand-600 hover:bg-brand-500 text-white font-bold py-4 px-10 rounded-full shadow-2xl shadow-brand-500/30 transition-all hover:scale-105 active:scale-95 flex items-center gap-2 mx-auto">
-            Start Your Process <ArrowRight className="text-sm h-5 w-5" />
-        </button>
-     </div>
+          {/* Center Dot */}
+          <div className="absolute left-1/2 -ml-3 md:flex items-center justify-center w-6 h-6 hidden order-2">
+            <div className="w-4 h-4 bg-slate-950 border-2 border-brand-400 rounded-full shadow-[0_0_10px_rgba(56,189,248,0.5)] z-10"></div>
+          </div>
+
+          {/* Text Right */}
+          <div className="w-full md:w-5/12 md:pl-12 lg:pl-16 order-2 md:order-3 text-center md:text-left">
+            <div className="inline-flex items-center gap-3 mb-4">
+              <span className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-brand-400 to-slate-600 opacity-30">01</span>
+              <h3 className="text-3xl font-bold text-white font-display">The Audit</h3>
+            </div>
+            <p className="text-slate-400 text-lg leading-relaxed mb-6">
+              We perform a deep dive into your current workflows to identify bottlenecks, inefficiencies, and hidden opportunities for automation.
+            </p>
+            <ul className="space-y-3 inline-block md:block text-left">
+              <li className="flex items-center gap-3 text-slate-300">
+                <Check className="text-brand-400 h-5 w-5" />
+                <span>Workflow mapping</span>
+              </li>
+              <li className="flex items-center gap-3 text-slate-300">
+                <Check className="text-brand-400 h-5 w-5" />
+                <span>Tech stack review</span>
+              </li>
+              <li className="flex items-center gap-3 text-slate-300">
+                <Check className="text-brand-400 h-5 w-5" />
+                <span>ROI Projection</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Step 02: The Design */}
+        <div className="relative flex flex-col md:flex-row items-center justify-between mb-24 md:mb-32 group reveal-on-scroll">
+          {/* Text Left */}
+          <div className="w-full md:w-5/12 md:pr-12 lg:pr-16 order-2 md:order-1 text-center md:text-right">
+            <div className="inline-flex items-center gap-3 mb-4 md:flex-row-reverse">
+              <span className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-bl from-brand-400 to-slate-600 opacity-30">02</span>
+              <h3 className="text-3xl font-bold text-white font-display">The Design</h3>
+            </div>
+            <p className="text-slate-400 text-lg leading-relaxed mb-6">
+              Architecting a custom solution tailored to your specific needs. We create a blueprint that bridges your tools seamlessly.
+            </p>
+            <ul className="space-y-3 inline-block md:flex md:flex-col md:items-end text-left md:text-right w-full">
+              <li className="flex items-center gap-3 text-slate-300 md:flex-row-reverse">
+                <Layers className="text-brand-400 h-5 w-5" />
+                <span>Custom Blueprinting</span>
+              </li>
+              <li className="flex items-center gap-3 text-slate-300 md:flex-row-reverse">
+                <GitMerge className="text-brand-400 h-5 w-5" />
+                <span>Data Flow Architecture</span>
+              </li>
+              <li className="flex items-center gap-3 text-slate-300 md:flex-row-reverse">
+                <Database className="text-brand-400 h-5 w-5" />
+                <span>Security Protocol Plan</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Center Dot */}
+          <div className="absolute left-1/2 -ml-3 md:flex items-center justify-center w-6 h-6 hidden order-2">
+            <div className="w-4 h-4 bg-slate-950 border-2 border-brand-400 rounded-full shadow-[0_0_10px_rgba(56,189,248,0.5)] z-10"></div>
+          </div>
+
+          {/* Icon Right */}
+          <div className="w-full md:w-5/12 flex justify-center md:justify-start md:pl-12 lg:pl-16 mb-8 md:mb-0 order-1 md:order-3">
+            <div className="relative w-full max-w-sm aspect-square glass-card rounded-2xl p-2 group-hover:-translate-y-2 transition-transform duration-500">
+              <div className="absolute inset-0 bg-brand-500/10 blur-2xl -z-10 rounded-full"></div>
+              <div className="w-full h-full bg-slate-900/50 rounded-xl overflow-hidden relative">
+                <div
+                  className="w-full h-full bg-cover bg-center opacity-80"
+                  style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuA2HfrFIEujFy53QFfo2CmRXdL6cWXzR2-YQxXEz55z1bjgcEhDoxLor4e_mcdvZqWtvxDWhvuL2FBab2Q_9DSKZYy2LU24IHnlSOFv5XkaZiIHp7IMdcHHR96PZYO4T7zvBrpKVvfluI2VxTq0L2zrdgtv4XSTAVEA7xvWLxWmpo3RrceI0uazXMsxaYldkP5Kdx7e0Ga8XsznGqd3MYEvgShc5yLRWeuw4MBe4tMjbgW_hkBfIFl-KwO51vVIroKL6WpRYBm138zN')" }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+                {/* Decorative UI Element overlay */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4">
+                  <div className="bg-black/40 backdrop-blur-md rounded-lg border border-white/10 p-4">
+                    <div className="flex justify-between items-center mb-3">
+                      <div className="w-20 h-2 bg-white/20 rounded"></div>
+                      <div className="w-6 h-6 bg-brand-500/20 rounded-full flex items-center justify-center">
+                        <Settings className="h-3 w-3 text-brand-400" />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="h-16 bg-white/5 rounded border border-dashed border-white/10"></div>
+                      <div className="h-16 bg-white/5 rounded border border-dashed border-white/10"></div>
+                      <div className="col-span-2 h-8 bg-brand-500/20 rounded border border-brand-500/30"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Step 03: The Build */}
+        <div className="relative flex flex-col md:flex-row items-center justify-between mb-24 md:mb-32 group reveal-on-scroll">
+          {/* Icon Left */}
+          <div className="w-full md:w-5/12 flex justify-center md:justify-end md:pr-12 lg:pr-16 mb-8 md:mb-0 order-1 md:order-1">
+            <div className="relative w-full max-w-sm aspect-square glass-card rounded-2xl p-2 group-hover:-translate-y-2 transition-transform duration-500">
+              <div className="absolute inset-0 bg-brand-500/10 blur-2xl -z-10 rounded-full"></div>
+              <div className="w-full h-full bg-slate-900/50 rounded-xl overflow-hidden relative">
+                <div
+                  className="w-full h-full bg-cover bg-center opacity-80"
+                  style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBGS2pxeAPYXMIyvM_GwSaGk0Hjazyc75CwNPz0dMtDgg0ASrAe9HlieE6GSwAY7ZTpM4Qyf-FeWfkFdOG7Xi2MCf8KWmDJgdFd5tFSXqWeqHsgCS2PNX10PBfGrBab3Y5DXP56HBWRJ4kD-YFA9drEpw_b6SiO_rkaPC3pHJPo9BNcdMHBmw0jhVLtnAaVMRTwHoNBlsSpo2IwKRigmjIfUbjXsT4fJEfEbXj9bsVIBMCQ-V08HB0tJCIaykoLojozDwik8nZM85fb')" }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+                {/* Decorative UI Element overlay */}
+                <div className="absolute bottom-6 right-6 p-3 rounded-lg bg-black/60 backdrop-blur-md border border-brand-500/30 flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                  <div className="text-xs font-mono text-brand-400">Compiling Build...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Center Dot */}
+          <div className="absolute left-1/2 -ml-3 md:flex items-center justify-center w-6 h-6 hidden order-2">
+            <div className="w-4 h-4 bg-slate-950 border-2 border-brand-400 rounded-full shadow-[0_0_10px_rgba(56,189,248,0.5)] z-10"></div>
+          </div>
+
+          {/* Text Right */}
+          <div className="w-full md:w-5/12 md:pl-12 lg:pl-16 order-2 md:order-3 text-center md:text-left">
+            <div className="inline-flex items-center gap-3 mb-4">
+              <span className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-brand-400 to-slate-600 opacity-30">03</span>
+              <h3 className="text-3xl font-bold text-white font-display">The Build</h3>
+            </div>
+            <p className="text-slate-400 text-lg leading-relaxed mb-6">
+              Rapid implementation using low-code tools and custom scripts. We bring the design to life with clean, efficient code.
+            </p>
+            <ul className="space-y-3 inline-block md:block text-left">
+              <li className="flex items-center gap-3 text-slate-300">
+                <Monitor className="text-brand-400 h-5 w-5" />
+                <span>API Integration</span>
+              </li>
+              <li className="flex items-center gap-3 text-slate-300">
+                <CloudCog className="text-brand-400 h-5 w-5" />
+                <span>Low-code Development</span>
+              </li>
+              <li className="flex items-center gap-3 text-slate-300">
+                <Search className="text-brand-400 h-5 w-5" />
+                <span>Rigorous Testing</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Step 04: The Scale */}
+        <div className="relative flex flex-col md:flex-row items-center justify-between mb-10 group reveal-on-scroll">
+          {/* Text Left */}
+          <div className="w-full md:w-5/12 md:pr-12 lg:pr-16 order-2 md:order-1 text-center md:text-right">
+            <div className="inline-flex items-center gap-3 mb-4 md:flex-row-reverse">
+              <span className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-bl from-brand-400 to-slate-600 opacity-30">04</span>
+              <h3 className="text-3xl font-bold text-white font-display">The Scale</h3>
+            </div>
+            <p className="text-slate-400 text-lg leading-relaxed mb-6">
+              Monitoring performance and expanding automation across the organization. We ensure your systems grow as you grow.
+            </p>
+            <ul className="space-y-3 inline-block md:flex md:flex-col md:items-end text-left md:text-right w-full">
+              <li className="flex items-center gap-3 text-slate-300 md:flex-row-reverse">
+                <BarChart3 className="text-brand-400 h-5 w-5" />
+                <span>Performance Monitoring</span>
+              </li>
+              <li className="flex items-center gap-3 text-slate-300 md:flex-row-reverse">
+                <Rocket className="text-brand-400 h-5 w-5" />
+                <span>Feature Expansion</span>
+              </li>
+              <li className="flex items-center gap-3 text-slate-300 md:flex-row-reverse">
+                <Mail className="text-brand-400 h-5 w-5" />
+                <span>Ongoing Support</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Center Dot */}
+          <div className="absolute left-1/2 -ml-3 md:flex items-center justify-center w-6 h-6 hidden order-2">
+            <div className="w-4 h-4 bg-slate-950 border-2 border-brand-400 rounded-full shadow-[0_0_10px_rgba(56,189,248,0.5)] z-10"></div>
+          </div>
+
+          {/* Icon Right */}
+          <div className="w-full md:w-5/12 flex justify-center md:justify-start md:pl-12 lg:pl-16 mb-8 md:mb-0 order-1 md:order-3">
+            <div className="relative w-full max-w-sm aspect-square glass-card rounded-2xl p-2 group-hover:-translate-y-2 transition-transform duration-500">
+              <div className="absolute inset-0 bg-brand-500/10 blur-2xl -z-10 rounded-full"></div>
+              <div className="w-full h-full bg-slate-900/50 rounded-xl overflow-hidden relative">
+                <div
+                  className="w-full h-full bg-cover bg-center opacity-80"
+                  style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBbg3epSh1Z2J1kZ4A2VODDpehOZajsXWUu1-eo9gGm6BfTyghu8MVqP5oww1rvOBk0K7FLpkOdKoURSd1HQj5TphjaaMAVf3SjqZrpmoZLna2Oh3E-rqLY4XeNNaJ2nNQ3rbH77VfBKyMNV4C86Xstseflq5MiunXSaGzrEC6a_I6qvOH4N1y8AxN7vWxPYnwv3Vu37tdIihEnLYHkXQBkbd8JwvMTV8p70zSIR9GPpDpw-bxIEs9A8ejWG_CGW2RnmQfvkszeAVIa')" }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+                {/* Decorative UI Element overlay */}
+                <div className="absolute top-8 right-8 w-24 h-24 rounded-full border-4 border-brand-500/20 flex items-center justify-center backdrop-blur-sm bg-black/20">
+                  <div className="text-center">
+                    <span className="block text-xl font-bold text-brand-400">+240%</span>
+                    <span className="text-[10px] uppercase text-slate-400 tracking-wider">Growth</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* CTA Button */}
+      <div className="mt-16 z-10 text-center reveal-on-scroll">
+        <a href="#contact" className="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-500 text-white font-bold py-4 px-10 rounded-full shadow-2xl shadow-brand-500/30 transition-all hover:scale-105 active:scale-95">
+          Start Your Audit <ArrowRight className="h-5 w-5" />
+        </a>
+      </div>
+    </div>
   </section>
 );
 
