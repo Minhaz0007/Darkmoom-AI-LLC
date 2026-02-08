@@ -13,7 +13,8 @@ import {
   Filler
 } from 'chart.js';
 import { Bar, Doughnut, Line } from 'react-chartjs-2';
-import { Check, X, ArrowRight, Database } from 'lucide-react';
+import { ArrowRight, Database } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 // Register ChartJS components
 ChartJS.register(
@@ -487,9 +488,9 @@ const CaseStudy = () => {
              <div className="relative z-10 max-w-2xl mx-auto px-4">
                  <h2 className="font-display text-4xl sm:text-5xl font-bold mb-6 text-white">Ready to transform <span className="text-brand-400">your</span> data?</h2>
                  <p className="text-slate-400 text-xl mb-10">Whether you need a Power BI dashboard, automated workflows, or a custom application — we deliver results fast.</p>
-                 <a href="/#contact" className="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-500 text-white font-bold py-4 px-10 rounded-full shadow-2xl shadow-brand-500/30 transition-all hover:scale-105 active:scale-95">
+                 <Link to="/#contact" className="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-500 text-white font-bold py-4 px-10 rounded-full shadow-2xl shadow-brand-500/30 transition-all hover:scale-105 active:scale-95">
                     Start Your Project
-                 </a>
+                 </Link>
                  <div className="mt-8 font-display font-bold text-slate-600">Darkmoon AI Solution LLC</div>
              </div>
         </section>

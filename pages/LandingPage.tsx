@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Rocket, Mail, Database, Package, FileEdit, BarChart3,
-  CloudCog, Smartphone, Monitor, Layers, Palette, GitMerge,
-  ChevronDown, ChevronUp, Check, X, Menu, ArrowRight,
-  Search, PenTool, Settings, Cpu
+  Rocket, Mail, Database, BarChart3,
+  CloudCog, Monitor, Layers, GitMerge,
+  ChevronDown, Check, ArrowRight,
+  Search, Settings
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Hero = () => (
   <section id="home" className="min-h-screen flex items-center py-20 px-4 sm:px-6 lg:px-8 relative z-10">
@@ -551,6 +551,8 @@ const Contact = () => {
 };
 
 const LandingPage = () => {
+    const location = useLocation();
+
     useEffect(() => {
         // Initialize scroll reveal
         const observer = new IntersectionObserver((entries) => {
@@ -563,14 +565,31 @@ const LandingPage = () => {
 
         document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
 
-        // Enhanced smooth scroll with navbar offset
+        // Handle initial hash scroll if present
+        if (location.hash) {
+            setTimeout(() => {
+                const element = document.querySelector(location.hash);
+                if (element) {
+                    const navbarHeight = 80;
+                    const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = elementPosition - navbarHeight;
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }, 100);
+        }
+
+        // Enhanced smooth scroll with navbar offset for internal links
         const handleAnchorClick = (e: Event) => {
-            const target = e.target as HTMLAnchorElement;
-            if (target.tagName === 'A' && target.hash) {
+            const target = (e.target as HTMLElement).closest('a');
+            if (target && target.hash && target.pathname === window.location.pathname) {
                 const href = target.getAttribute('href');
-                if (href?.startsWith('#')) {
+                if (href?.includes('#')) {
                     e.preventDefault();
-                    const element = document.querySelector(href);
+                    const hash = href.substring(href.indexOf('#'));
+                    const element = document.querySelector(hash);
                     if (element) {
                         const navbarHeight = 80;
                         const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
@@ -580,6 +599,8 @@ const LandingPage = () => {
                             top: offsetPosition,
                             behavior: 'smooth'
                         });
+                        // Update URL without scroll
+                        window.history.pushState(null, '', hash);
                     }
                 }
             }
@@ -590,7 +611,7 @@ const LandingPage = () => {
         return () => {
             document.removeEventListener('click', handleAnchorClick);
         };
-    }, []);
+    }, [location]);
 
     return (
         <main className="relative z-10">
