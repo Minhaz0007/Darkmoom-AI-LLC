@@ -320,7 +320,7 @@
     color: var(--accent);
     border-color: var(--border-accent);
   }
-  .dashboard-& {
+  .dashboard-body {
     padding: 28px;
   }
   .dashboard-page { display: none; }

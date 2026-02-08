@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Chart from 'chart.js/auto';
 import './RefineryDashboard.css';
 
@@ -187,9 +188,9 @@ const RefineryDashboard = () => {
   return (
     <div id="case-study-wrapper">
       <section className="hero">
-        <a href="/" style={{ position: 'absolute', top: 30, left: 30, textDecoration: 'none', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: 8, zIndex: 10 }}>
+        <Link to="/" style={{ position: 'absolute', top: 30, left: 30, textDecoration: 'none', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: 8, zIndex: 10 }}>
           <span>← Back to Portfolio</span>
-        </a>
+        </Link>
         <div className="hero-badge">Case Study</div>
         <h1>Multi-Refinery Production<br/><span className="highlight">Intelligence Dashboard</span></h1>
         <p className="hero-sub">How we unified operations data across 3 petroleum refineries into a single source of truth — driving real-time visibility into capacity, yield, energy & downtime.</p>
