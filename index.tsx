@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { createRoot } from 'react-dom/client';
-import { 
-  Rocket, Mail, Database, Package, FileEdit, BarChart3, 
+import {
+  Rocket, Mail, Database, Package, FileEdit, BarChart3,
   CloudCog, Smartphone, Monitor, Layers, Palette, GitMerge,
   ChevronDown, ChevronUp, Check, X, Menu, ArrowRight,
   Search, PenTool, Settings, Cpu
@@ -10,6 +10,7 @@ import {
 // --- COMPONENTS ---
 
 import logo from './darkmoon-brand-logo.png';
+import CaseStudy from './CaseStudy';
 
 const BackgroundCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -76,7 +77,7 @@ const BackgroundCanvas = () => {
   return <canvas ref={canvasRef} id="bg-canvas" />;
 };
 
-const Navbar = () => {
+const Navbar: React.FC<{ currentPage: string; navigateTo: (page: string) => void }> = ({ currentPage, navigateTo }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
@@ -118,10 +119,33 @@ const Navbar = () => {
 
           <div className="hidden md:flex items-center gap-6">
             {['Process', 'Solutions'].map((item) => (
-                <a key={item} href={`#${item.toLowerCase()}`} className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  onClick={(e) => {
+                    if (currentPage !== 'home') {
+                      e.preventDefault();
+                      navigateTo('home');
+                      setTimeout(() => {
+                        const el = document.querySelector(`#${item.toLowerCase()}`);
+                        if (el) {
+                          const offset = el.getBoundingClientRect().top + window.pageYOffset - 80;
+                          window.scrollTo({ top: offset, behavior: 'smooth' });
+                        }
+                      }, 100);
+                    }
+                  }}
+                  className="text-sm font-medium text-slate-300 hover:text-white transition-colors"
+                >
                     {item}
                 </a>
             ))}
+            <button
+              onClick={() => navigateTo(currentPage === 'case-study' ? 'home' : 'case-study')}
+              className={`text-sm font-medium transition-colors cursor-pointer ${currentPage === 'case-study' ? 'text-brand-400' : 'text-slate-300 hover:text-white'}`}
+            >
+              Work
+            </button>
             <button onClick={copyEmail} className="relative flex items-center gap-2 px-4 py-2 bg-slate-900/50 backdrop-blur-sm border border-slate-700 rounded-lg hover:border-brand-400 transition-all group cursor-pointer">
               <Mail className="h-4 w-4 text-brand-400" />
               <span className="font-bold text-sm text-slate-200 group-hover:text-brand-400 transition-colors">contact@darkmoonai.com</span>
@@ -164,13 +188,33 @@ const Navbar = () => {
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={(e) => {
+                  setMobileMenuOpen(false);
+                  if (currentPage !== 'home') {
+                    e.preventDefault();
+                    navigateTo('home');
+                    setTimeout(() => {
+                      const el = document.querySelector(`#${item.toLowerCase()}`);
+                      if (el) {
+                        const offset = el.getBoundingClientRect().top + window.pageYOffset - 80;
+                        window.scrollTo({ top: offset, behavior: 'smooth' });
+                      }
+                    }, 100);
+                  }
+                }}
                 className="text-3xl font-display font-bold text-slate-200 hover:text-brand-400 transition-all duration-300 hover:scale-110 active:scale-95"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 {item}
               </a>
             ))}
+            <button
+              onClick={() => { setMobileMenuOpen(false); navigateTo(currentPage === 'case-study' ? 'home' : 'case-study'); }}
+              className={`text-3xl font-display font-bold transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer ${currentPage === 'case-study' ? 'text-brand-400' : 'text-slate-200 hover:text-brand-400'}`}
+              style={{ animationDelay: '150ms' }}
+            >
+              Work
+            </button>
             <button
               onClick={() => { copyEmail(); setMobileMenuOpen(false); }}
               className="relative text-xl font-bold text-brand-400 hover:text-brand-300 transition-all duration-300 hover:scale-110 active:scale-95"
@@ -705,6 +749,29 @@ const Footer = () => (
 );
 
 const App = () => {
+    const [currentPage, setCurrentPage] = useState(() => {
+        return window.location.hash === '#work' ? 'case-study' : 'home';
+    });
+
+    const navigateTo = useCallback((page: string) => {
+        setCurrentPage(page);
+        window.location.hash = page === 'case-study' ? 'work' : '';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, []);
+
+    useEffect(() => {
+        const handleHash = () => {
+            const hash = window.location.hash;
+            if (hash === '#work') {
+                setCurrentPage('case-study');
+            } else if (!hash || hash === '#' || hash === '#home') {
+                setCurrentPage('home');
+            }
+        };
+        window.addEventListener('hashchange', handleHash);
+        return () => window.removeEventListener('hashchange', handleHash);
+    }, []);
+
     useEffect(() => {
         // Initialize scroll reveal
         const observer = new IntersectionObserver((entries) => {
@@ -715,7 +782,15 @@ const App = () => {
             });
         }, { threshold: 0.1 });
 
-        document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        // Observe both existing and dynamically added elements
+        const observeAll = () => {
+            document.querySelectorAll('.reveal-on-scroll:not(.is-visible)').forEach(el => observer.observe(el));
+        };
+        observeAll();
+
+        // Re-observe when page changes
+        const mutationObs = new MutationObserver(() => observeAll());
+        mutationObs.observe(document.body, { childList: true, subtree: true });
 
         // Enhanced smooth scroll with navbar offset
         const handleAnchorClick = (e: Event) => {
@@ -743,19 +818,26 @@ const App = () => {
 
         return () => {
             document.removeEventListener('click', handleAnchorClick);
+            mutationObs.disconnect();
         };
-    }, []);
+    }, [currentPage]);
 
     return (
         <>
             <BackgroundCanvas />
-            <Navbar />
+            <Navbar currentPage={currentPage} navigateTo={navigateTo} />
             <main className="relative z-10">
-                <Hero />
-                <Process />
-                <Solutions />
-                <FAQ />
-                <Contact />
+                {currentPage === 'home' ? (
+                    <>
+                        <Hero />
+                        <Process />
+                        <Solutions />
+                        <FAQ />
+                        <Contact />
+                    </>
+                ) : (
+                    <CaseStudy onBack={() => navigateTo('home')} />
+                )}
             </main>
             <Footer />
         </>
