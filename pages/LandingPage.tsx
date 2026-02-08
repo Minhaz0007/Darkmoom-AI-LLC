@@ -38,12 +38,9 @@ const Hero = () => (
 
 const FeaturedWork = () => {
     return (
-        <section id="featured" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+        <section id="portfolio" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
                 <div className="text-center mb-10 reveal-on-scroll">
-                    <span className="inline-block py-1 px-3 rounded-full bg-brand-500/10 text-brand-400 text-xs font-bold tracking-wider uppercase mb-4 border border-brand-500/20">
-                        Case Study
-                    </span>
                     <h2 className="font-display text-3xl sm:text-4xl font-bold mb-3 text-white">Featured Work</h2>
                     <p className="text-slate-400">Real-world results.</p>
                 </div>

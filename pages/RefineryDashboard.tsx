@@ -191,7 +191,6 @@ const RefineryDashboard = () => {
         <Link to="/" style={{ position: 'absolute', top: 30, left: 30, textDecoration: 'none', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: 8, zIndex: 10 }}>
           <span>← Back to Portfolio</span>
         </Link>
-        <div className="hero-badge">Case Study</div>
         <h1>Multi-Refinery Production<br/><span className="highlight">Intelligence Dashboard</span></h1>
         <p className="hero-sub">How we unified operations data across 3 petroleum refineries into a single source of truth — driving real-time visibility into capacity, yield, energy & downtime.</p>
         <div className="hero-meta">
@@ -522,7 +521,7 @@ const RefineryDashboard = () => {
         <h2 className="cta-title">Ready to transform <span style={{color:'var(--accent)'}}>your</span> data?</h2>
         <p className="cta-desc">Whether you need a Power BI dashboard, automated workflows, or a custom application — we deliver results fast.</p>
         <div className="cta-brand">Darkmoon AI Solution LLC</div>
-        <div className="cta-contact">Buffalo, NY · darkmoonai.com</div>
+        <div className="cta-contact">darkmoonai.com</div>
       </section>
     </div>
   );

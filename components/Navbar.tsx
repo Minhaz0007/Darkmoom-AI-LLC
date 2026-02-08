@@ -43,7 +43,7 @@ const Navbar = () => {
           </a>
 
           <div className="hidden md:flex items-center gap-6">
-            {['Process', 'Solutions'].map((item) => (
+            {['Portfolio', 'Process', 'Solutions'].map((item) => (
                 <a key={item} href={`/#${item.toLowerCase()}`} className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
                     {item}
                 </a>
@@ -86,7 +86,7 @@ const Navbar = () => {
             className="flex flex-col items-center justify-center h-full space-y-8 px-6 animate-slide-down"
             onClick={(e) => e.stopPropagation()}
           >
-            {['Process', 'Solutions'].map((item, index) => (
+            {['Portfolio', 'Process', 'Solutions'].map((item, index) => (
               <a
                 key={item}
                 href={`/#${item.toLowerCase()}`}
